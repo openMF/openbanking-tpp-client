@@ -1,4 +1,5 @@
 import {combineReducers} from "redux";
 import user from './users/reducer';
+import qr from './qr/reducer';
 
-export const rootReducer = combineReducers({user});
+export const rootReducer = combineReducers({user, qr});
