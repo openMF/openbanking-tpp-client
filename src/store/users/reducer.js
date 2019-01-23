@@ -1,6 +1,6 @@
 import {SELECT_USER} from "./actions";
 
-function selectUser(state = {}, action) {
+function user(state = {}, action) {
     switch (action.type) {
         case SELECT_USER:
             return action;
@@ -8,3 +8,5 @@ function selectUser(state = {}, action) {
             return state
     }
 }
+
+export default user;
