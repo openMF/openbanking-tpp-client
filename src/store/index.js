@@ -1,5 +1,6 @@
 import {combineReducers} from "redux";
-import {user} from './users/reducer';
 import {payment} from "./payment/reducer";
+import user from './users/reducer';
+import qr from './qr/reducer';
 
-export const rootReducer = combineReducers({user, payment});
+export const rootReducer = combineReducers({user, payment, qr});
