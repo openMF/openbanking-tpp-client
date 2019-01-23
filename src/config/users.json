@@ -1,0 +1,23 @@
+[
+  {
+    "username": "user1",
+    "firstName": "First1",
+    "lastName": "Last1",
+    "role": "merchant",
+    "banks": []
+  },
+  {
+    "username": "user2",
+    "firstName": "First2",
+    "lastName": "Last2",
+    "role": "customer",
+    "banks": []
+  },
+  {
+    "username": "user3",
+    "firstName": "First3",
+    "lastName": "Last3",
+    "role": "customer",
+    "banks": []
+  }
+]
