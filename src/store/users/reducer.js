@@ -7,7 +7,7 @@ function user(state = {}, action) {
         case LOGIN_STARTED:
             return {...state, loading: true, error: null, username: null};
         case LOGIN_FAILED:
-            return {...state, loading: false, error: "You cannot login to this bank with this user name"};
+            return {...state, loading: false, error: "You cannot login to this bank with these credentials"};
         case LOGIN_COMPLETED:
             return {...state, loading: false, username: action.payload.username, role: action.payload.role};
         default:
