@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "jsqr": "^1.1.1",
     "node-sass": "^4.11.0",
     "onsenui": "^2.10.6",
     "react": "^16.7.0",
