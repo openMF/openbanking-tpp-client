@@ -1,6 +1,6 @@
 import {LOGIN_COMPLETED, LOGIN_FAILED, LOGIN_STARTED, SELECT_USER} from "./actions";
 
-function user(state = {}, action) {
+export const user = (state = {}, action) => {
     switch (action.type) {
         case SELECT_USER:
             return action;
@@ -13,6 +13,4 @@ function user(state = {}, action) {
         default:
             return state
     }
-}
-
-export default user;
+};
