@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "luxon": "^1.10.0",
     "jsqr": "^1.1.1",
     "node-sass": "^4.11.0",
     "onsenui": "^2.10.6",
+    "qrcode.react": "^0.9.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-onsenui": "^1.11.2",
