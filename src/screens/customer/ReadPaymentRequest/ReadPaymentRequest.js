@@ -21,7 +21,6 @@ class ReadPaymentRequest extends PureComponent {
         .then(function (stream) {
           if (self.video) {
             self.video.srcObject = stream;
-            self.video.play();
             self.stream = stream.getVideoTracks()[0];
             requestAnimationFrame(self.tick);
           }
@@ -40,22 +39,21 @@ class ReadPaymentRequest extends PureComponent {
       const code = jsQR(imageData.data, imageData.width, imageData.height);
 
       if (code) {
-        this.props.setData(code.data);
         this.stream.stop();
+        this.props.setData(code.data);
         this.props.history.push("/customer/approvePayment");
-      } else {
-        requestAnimationFrame(this.tick);
+        return;
       }
-    } else {
-      requestAnimationFrame(this.tick);
     }
+    requestAnimationFrame(this.tick);
+
   };
 
   render() {
     return (<Layout>
       <h1>ReadPaymentRequest</h1>
       <canvas id="canvas" hidden/>
-      <video id="video-display" width="300px" height="300px" playsInline={true}/>
+      <video id="video-display" autoPlay={true} width="300px" height="300px" playsInline={true}/>
     </Layout>)
   }
 }
