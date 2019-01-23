@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Route} from "react-router-dom";
 import './App.css';
-import Customer from "./screens/customer/";
+import Customer from "./screens/customer";
 import Merchant from "./screens/merchant";
 import Login from "./screens/login"
 

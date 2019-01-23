@@ -1,0 +1,23 @@
+.wrapper{
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 400px;
+    width: 300px;
+    margin: 20% 10% 10%;
+    }
+
+    .text{
+    }
+
+    .checkMark{
+        width: 20%;
+        height: 20%;
+        margin: 20%;
+    }
+
+    .button{
+    }
+
+
