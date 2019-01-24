@@ -8,7 +8,7 @@ import QRCode from 'qrcode.react';
 class GeneratedPaymentRequest extends PureComponent {
     state = {
         qrData: {}
-    }
+    };
 
     componentDidMount() {
         const {payment} = this.props;
@@ -18,6 +18,7 @@ class GeneratedPaymentRequest extends PureComponent {
             payment.amount,
             payment.description);
         this.setState({qrData})
+        console.log(QRTransaction.decode(qrData.encode()));;
     }
 
     render() {
