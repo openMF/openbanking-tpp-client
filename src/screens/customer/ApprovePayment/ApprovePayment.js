@@ -1,13 +1,15 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
+import {approvePaymentRequest} from "../../../store/payment/actions";
 import {Card} from "react-onsenui";
 import Button from "react-onsenui/src/components/Button";
 import {startPayment} from "../../../store/payment/thunks";
+import { Redirect } from 'react-router-dom';
 
 class ApprovePayment extends PureComponent {
     render() {
-        const {data} = this.props;
+        const {data, completedPayment} = this.props;
         return (<Layout>
             <h1>ApprovePayment</h1>
             <Card>
@@ -22,15 +24,18 @@ class ApprovePayment extends PureComponent {
             <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
                 Approve
             </Button>
+            {completedPayment&&<Redirect to={'/customer/paymentComplete'}/>}
             </Layout>)
     }
 }
 
 const mapStateToProps = state => ({
    data: state.qr.data,
+    completedPayment: state.payment.completedPayment
 });
 
 const matchDispatchToProps = dispatch => ({
+    approve: () => dispatch(approvePaymentRequest()),
     startPayment: history => dispatch(startPayment(history)),
 });
 
