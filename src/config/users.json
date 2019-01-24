@@ -4,20 +4,29 @@
     "firstName": "First1",
     "lastName": "Last1",
     "role": "merchant",
-    "banks": []
+    "banks": [
+      {
+        "bankName": "Bank1",
+        "partyIdInfo": {
+          "partyIdType": "IBAN",
+          "partyIdentifier": "IC11in02tn01305e663e1e4611e9ab14d6"
+        }
+      }
+    ]
   },
   {
     "username": "user2",
     "firstName": "First2",
     "lastName": "Last2",
     "role": "customer",
-    "banks": []
-  },
-  {
-    "username": "user3",
-    "firstName": "First3",
-    "lastName": "Last3",
-    "role": "customer",
-    "banks": []
+    "banks": [
+      {
+        "bankName": "Bank2",
+        "partyIdInfo": {
+          "partyIdType": "IBAN",
+          "partyIdentifier": "IC11in01tn0131d77b06141c11e9ab14d6"
+        }
+      }
+    ]
   }
 ]
