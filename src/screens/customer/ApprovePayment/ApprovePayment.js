@@ -17,7 +17,7 @@ class ApprovePayment extends PureComponent {
                 <p>Note: {data.note}</p>
             </Card>
             <Card>
-                <p>Amount: {data.amount}</p>
+                <p>Amount: {data.amount} TZS</p>
             </Card>
             <Button modifier="large--cta" onClick={() => this.props.approve()}>
                 Approve
