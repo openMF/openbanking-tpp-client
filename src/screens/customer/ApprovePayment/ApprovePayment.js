@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import {DataList} from "../../../components/DataList/DataList.js";
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
 import {Button} from "react-onsenui";
 import {startPayment} from "../../../store/payment/thunks";

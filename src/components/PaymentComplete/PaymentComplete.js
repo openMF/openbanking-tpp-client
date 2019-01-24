@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import {DataList} from "../DataList/DataList.js";
-import {Layout} from "../Layout/Layout.js";
+import Layout from "../Layout/Layout.js";
 import {Button, Card} from "react-onsenui";
 import { NavLink } from "react-router-dom";
 import {connect} from "react-redux";

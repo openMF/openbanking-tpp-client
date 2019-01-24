@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import {withRouter} from "react-router-dom";
-import {Layout} from "../../components/Layout/Layout.js";
+import Layout from "../../components/Layout/Layout.js";
 import {Input, Button, Card} from 'react-onsenui';
 import {connect} from 'react-redux';
 import {login} from "../../store/users/thunks";

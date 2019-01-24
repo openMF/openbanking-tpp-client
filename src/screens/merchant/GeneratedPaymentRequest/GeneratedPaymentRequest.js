@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react'
 import {connect} from "react-redux";
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import {QRTransaction} from "../../../models/QRTransaction.js";
 import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
-import { clearPaymentRequest } from '../../../store/payment/actions';
-import {NavLink, Redirect} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -29,8 +28,7 @@ class GeneratedPaymentRequest extends PureComponent {
         return (<Layout>
             <h1>PaymentRequest</h1>
             <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
-            <Button modifier="large--cta" onClick={()=> clearPaymentRequest()}>Create new payment request</Button>
-            {!paymentRequestSent&&<Redirect to={'/merchant/createPaymentRequest'}/>}
+            <NavLink to={`/merchant/createPaymentRequest`}><Button modifier="large--cta">Create new payment request</Button></NavLink>
             <NavLink to={`/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
         </Layout>)
     }
@@ -39,7 +37,7 @@ class GeneratedPaymentRequest extends PureComponent {
 const mapStateToProps = (state) => ({
     user: state.user,
     payment: state.payment,
-    paymentRequestSent: state.payment.paymentRequestSent
 });
 
-export default connect(mapStateToProps, dispatch=> ({clearPaymentRequest: ()=>dispatch(clearPaymentRequest())}))(GeneratedPaymentRequest)
+export default connect(mapStateToProps, null)(GeneratedPaymentRequest)
+

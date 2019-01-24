@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import jsQR from "jsqr";
 import {setQrData} from "../../../store/qr/actions";
 import {connect} from "react-redux";

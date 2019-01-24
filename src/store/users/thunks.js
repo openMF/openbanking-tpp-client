@@ -1,5 +1,5 @@
 import users from '../../config/users';
-import {loginCompleted, loginFailed, loginStarted} from "./actions";
+import { loginCompleted, loginFailed, loginStarted, logoutUser } from "./actions";
 
 export const login = (username, history) => dispatch => {
     dispatch(loginStarted());
@@ -10,4 +10,9 @@ export const login = (username, history) => dispatch => {
     } else {
         dispatch(loginFailed());
     }
+};
+
+export const logout = history => dispatch => {
+  dispatch(logoutUser());
+  history.push('/');
 };
