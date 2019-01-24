@@ -16,4 +16,4 @@ export function user(state = {}, action) {
         default:
             return state
     }
-};
+}

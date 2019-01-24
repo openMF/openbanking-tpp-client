@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Redirect, Route} from "react-router-dom";
 import {connect} from 'react-redux';
 import './App.css';
-import Customer from "./screens/customer/";
+import Customer from "./screens/customer";
 import Merchant from "./screens/merchant";
 import Login from "./screens/login";
 
