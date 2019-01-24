@@ -1,22 +1,11 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../Layout/Layout.js";
 import {Button, Card, List, ListItem} from "react-onsenui";
-import {Redirect} from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import {connect} from "react-redux";
 import './PaymentComplete.css';
 
 class PaymentComplete extends PureComponent {
-
-    state = {
-        navigate: false,
-        referrer: null
-    };
-
-    modifyState = (urlType) => {
-        this.setState({
-            navigate: true,
-            referrer: '/'+urlType});
-    };
 
     render() {
         const { user, payment } = this.props;
@@ -63,14 +52,9 @@ class PaymentComplete extends PureComponent {
                         )}
                     />
                 </Card>
-                {this.state.navigate === true ?
-                    <Redirect to={this.state.referrer}/>
-                    :
-                    <Button modifier="large--cta" onClick={() => {
-                        this.modifyState(role)
-                    }}> OK
-                    </Button>
-                }
+
+                    <NavLink to={`/`}><Button modifier="large--cta">OK</Button></NavLink>
+
             </div>
         </Layout>)
     }

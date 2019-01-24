@@ -7,9 +7,9 @@ import Merchant from "./screens/merchant";
 import Login from "./screens/login";
 import CreatePaymentRequest from './screens/merchant/CreatePaymentRequest/CreatePaymentRequest';
 import GeneratedPaymentRequest from './screens/merchant/GeneratedPaymentRequest/GeneratedPaymentRequest';
-import { PaymentComplete } from './screens/merchant/PaymentComplete/PaymentComplete';
 import ReadPaymentRequest from './screens/customer/ReadPaymentRequest/ReadPaymentRequest';
 import ApprovePayment from './screens/customer/ApprovePayment/ApprovePayment';
+import PaymentComplete from './components/PaymentComplete/PaymentComplete';
 
 class App extends Component {
   render() {
