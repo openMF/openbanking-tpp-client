@@ -15,6 +15,6 @@ export const loginFailed = () => ({
     type: LOGIN_FAILED
 });
 
-export const loginCompleted = (username, role) => ({
-    type: LOGIN_COMPLETED, payload: {username, role}
+export const loginCompleted = (user) => ({
+    type: LOGIN_COMPLETED, payload: {user}
 });

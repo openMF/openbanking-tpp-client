@@ -9,7 +9,10 @@ export const user = (state = {}, action) => {
         case LOGIN_FAILED:
             return {...state, loading: false, error: "You cannot login to this bank with these credentials"};
         case LOGIN_COMPLETED:
-            return {...state, loading: false, username: action.payload.username, role: action.payload.role};
+            return {...state, loading: false,
+                rawUser: action.payload.user,
+                username: action.payload.user.username,
+                role: action.payload.user.role};
         default:
             return state
     }

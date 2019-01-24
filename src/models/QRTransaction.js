@@ -1,9 +1,9 @@
 import UUID from "uuid/v1.js";
 
 export class QRTransaction {
-    constructor(merchant, note, amount){
+    constructor(merchant, amount, note){
         this.merchant = merchant;
-        this.clientRefId = new UUID();
+        this.clientRefId = UUID();
         this.note = note;
         this.amount = amount
     }
@@ -17,7 +17,7 @@ export class QRTransaction {
             tn: this.note,
             am: this.amount,
             cu: 'TZS',
-            refUrl: `https://fake.url/orderId=${this.clientRefId}`
+            refUrl: `https://fake.url/orderId=${UUID()}`
         };
         let dataString = `upi://pay?`;
         for (const prop in data) {
