@@ -6,7 +6,7 @@ import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
 import { clearPaymentRequest } from '../../../store/payment/actions';
-import { Redirect } from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -31,6 +31,7 @@ class GeneratedPaymentRequest extends PureComponent {
             <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
             <Button modifier="large--cta" onClick={()=> clearPaymentRequest()}>Create new payment request</Button>
             {!paymentRequestSent&&<Redirect to={'/merchant/createPaymentRequest'}/>}
+            <NavLink to={`/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
         </Layout>)
     }
 }

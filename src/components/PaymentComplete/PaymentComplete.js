@@ -20,8 +20,8 @@ class PaymentComplete extends PureComponent {
                 text = "Payment successful";
                 amount = qr.data.amount;
                 dataSource = [
-                    ['Merchant Id', 'T-39000122 John Smith, MnaziI Mmoja Street Zanzibar'],
-                    ['Merchant Account', '11223344-11223344'],
+                    ['Merchant Id', qr.data.merchant.id],
+                    ['Merchant Account', qr.data.merchant.name],
                     ['Description', qr.data.note]
                 ];
                 break;
