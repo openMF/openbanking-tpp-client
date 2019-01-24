@@ -5,7 +5,7 @@ export const login = username => dispatch => {
     dispatch(loginStarted());
     const registeredUser = users.find( user => user.username === username);
     if (registeredUser) {
-        dispatch(loginCompleted(username, registeredUser.role));
+        dispatch(loginCompleted(registeredUser));
     } else {
         dispatch(loginFailed());
     }
