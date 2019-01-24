@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
-import {approvePaymentRequest} from "../../../store/payment/actions";
 import {Card} from "react-onsenui";
 import Button from "react-onsenui/src/components/Button";
+import {startPayment} from "../../../store/payment/thunks";
 
 class ApprovePayment extends PureComponent {
     render() {
@@ -19,7 +19,7 @@ class ApprovePayment extends PureComponent {
             <Card>
                 <p>Amount: {data.amount} TZS</p>
             </Card>
-            <Button modifier="large--cta" onClick={() => this.props.approve()}>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
                 Approve
             </Button>
             </Layout>)
@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
 });
 
 const matchDispatchToProps = dispatch => ({
-    approve: () => dispatch(approvePaymentRequest()),
+    startPayment: history => dispatch(startPayment(history)),
 });
 
 export default connect(mapStateToProps, matchDispatchToProps) (ApprovePayment)
