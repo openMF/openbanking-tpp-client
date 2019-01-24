@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../../../components/Layout/Layout.js";
 import {Button, Input} from "react-onsenui";
-import {sendPaymentRequest} from "../../../store/payment/actions";
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import {createPayment} from "../../../store/payment/thunks.js";
 
 class CreatePaymentRequest extends PureComponent {
 
@@ -44,7 +44,7 @@ class CreatePaymentRequest extends PureComponent {
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    sendPaymentRequest: (amount, description) => dispatch(sendPaymentRequest(amount, description))
+    sendPaymentRequest: (history, amount, description) => dispatch(createPayment(history, amount, description))
 });
 
 export default connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest);

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../Layout/Layout.js";
 import {Button, Card, List, ListItem} from "react-onsenui";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {connect} from "react-redux";
 import './PaymentComplete.css';
 

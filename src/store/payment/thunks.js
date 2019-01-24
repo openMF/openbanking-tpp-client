@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Transaction} from "../../models/transaction";
 import { SERVER_URL } from "../../config/server";
+import {sendPaymentRequest} from "./actions.js";
 
 export const startPayment = history => (dispatch, getState) => {
   const {user, qr} = getState();
@@ -15,4 +16,9 @@ export const startPayment = history => (dispatch, getState) => {
       })
       .catch(() => {
       });
+};
+
+export const createPayment = (history, amount, description) => (dispatch) => {
+    dispatch(sendPaymentRequest(amount, description));
+    history.push('/merchant/paymentRequest');
 };
