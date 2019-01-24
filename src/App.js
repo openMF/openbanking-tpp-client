@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import './App.css';
 import Customer from "./screens/customer";
@@ -32,4 +32,4 @@ const mapStateToProps = (state) => ({
    role: state.user.role
 });
 
-export default connect(mapStateToProps) (App);
+export default withRouter(connect(mapStateToProps) (App));

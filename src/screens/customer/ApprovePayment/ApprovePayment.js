@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react'
+import {DataList} from "../../../components/DataList/DataList.js";
 import {Layout} from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
-import {Card} from "react-onsenui";
-import Button from "react-onsenui/src/components/Button";
+import {Button} from "react-onsenui";
 import {startPayment} from "../../../store/payment/thunks";
 
 class ApprovePayment extends PureComponent {
@@ -10,17 +10,17 @@ class ApprovePayment extends PureComponent {
         const {data} = this.props;
         return (<Layout>
             <h1>ApprovePayment</h1>
-            <Card>
-                <p>Name: {data.merchant.name}</p>
-            </Card>
-            <Card>
-                <p>Note: {data.note}</p>
-            </Card>
-            <Card>
-                <p>Amount: {data.amount} TZS</p>
-            </Card>
+            <DataList modifier="noborder" dataSource={[
+                ['Merchant:', data.merchant.name],
+                ['Merchant account:', data.merchant.id],
+                ['Note:', data.note],
+                ['Amount:', data.amount + ' TZS']
+            ]}/>
             <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
                 Approve
+            </Button>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
+                Reject
             </Button>
             </Layout>)
     }
