@@ -27,7 +27,7 @@ class ApprovePayment extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-   data: state.qr.data,
+   data: state.qr.data
 });
 
 const matchDispatchToProps = dispatch => ({

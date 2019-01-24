@@ -1,14 +1,8 @@
 import React from "react";
-import {Route, Redirect} from "react-router-dom";
-import CreatePaymentRequest from "./CreatePaymentRequest/CreatePaymentRequest.js";
-import GeneratedPaymentRequest from "./GeneratedPaymentRequest/GeneratedPaymentRequest.js";
-import PaymentComplete from "../../components/PaymentComplete/PaymentComplete.js";
 
-export const Merchant = ({match}) => {
+export const Merchant = () => {
     return <div>
-        <Route exact path={`${match.path}/`} render={() => <Redirect to={`${match.path}/createPaymentRequest`}/>}/>
-        <Route path={`${match.path}/createPaymentRequest`} component={CreatePaymentRequest}/>
-        <Route path={`${match.path}/paymentRequest`} component={GeneratedPaymentRequest}/>
-        <Route path={`${match.path}/paymentComplete`} component={PaymentComplete}/>
+        MERCHANT
+
     </div>;
 };

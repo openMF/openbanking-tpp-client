@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import {withRouter} from "react-router-dom";
 import {Layout} from "../../components/Layout/Layout.js";
 import {Input, Button, Card} from 'react-onsenui';
 import {connect} from 'react-redux';
@@ -35,7 +36,7 @@ class Login extends PureComponent {
                 />
             </div>
             {error && <Card><p style={{color: "red"}}>{error}</p></Card>}
-            <Button modifier="large--cta" onClick={() => login(username)}>
+            <Button modifier="large--cta" onClick={() => login(username, this.props.history )}>
                 Login
             </Button>
         </Layout>)
@@ -49,7 +50,7 @@ const mapStateToProps = (state) => ({
 });
 
 const matchDispatchToProps = (dispatch) => ({
-    login: (username) => dispatch(login(username))
+    login: (username, history) => dispatch(login(username, history))
 });
 
-export default connect(mapStateToProps, matchDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));

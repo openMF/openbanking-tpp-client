@@ -2,23 +2,11 @@ import React, {PureComponent} from 'react'
 import {DataList} from "../DataList/DataList.js";
 import {Layout} from "../Layout/Layout.js";
 import {Button, Card} from "react-onsenui";
-import {Redirect} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {connect} from "react-redux";
 import './PaymentComplete.css';
 
 class PaymentComplete extends PureComponent {
-
-    state = {
-        navigate: false,
-        referrer: null
-    };
-
-    modifyState = (urlType) => {
-        this.setState({
-            navigate: true,
-            referrer: '/' + urlType
-        });
-    };
 
     render() {
         const {user, payment, qr} = this.props;
@@ -67,14 +55,8 @@ class PaymentComplete extends PureComponent {
 
                 <DataList modifier="noborder" title="Confirmation" dataSource={dataSource}
                 />
-                {this.state.navigate === true ?
-                    <Redirect to={this.state.referrer}/>
-                    :
-                    <Button modifier="large--cta" onClick={() => {
-                        this.modifyState(role)
-                    }}> OK
-                    </Button>
-                }
+
+                    <NavLink to={`/`}><Button modifier="large--cta">OK</Button></NavLink>
             </div>
         </Layout>)
     }

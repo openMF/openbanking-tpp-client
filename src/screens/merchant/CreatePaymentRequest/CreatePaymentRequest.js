@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../../../components/Layout/Layout.js";
 import {Button, Input} from "react-onsenui";
-import {sendPaymentRequest} from "../../../store/payment/actions";
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {createPayment} from "../../../store/payment/thunks.js";
 
 class CreatePaymentRequest extends PureComponent {
 
@@ -13,7 +14,7 @@ class CreatePaymentRequest extends PureComponent {
 
     render() {
         const {amount, description} = this.state;
-        const {sendPaymentRequest} = this.props;
+        const {sendPaymentRequest, paymentRequestSent} = this.props;
         //TODO Implement a form to get the payment amount(TZS) and payment note(description);
         return (<Layout>
             <h1>CreatePaymentRequest</h1>
@@ -37,12 +38,13 @@ class CreatePaymentRequest extends PureComponent {
             <Button modifier="large--cta" onClick={() => sendPaymentRequest(amount, description)}>
                 Create Payment Request
             </Button>
+            {paymentRequestSent&&<Redirect to={'/merchant/paymentRequest'}/>}
         </Layout>)
     }
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    sendPaymentRequest: (amount, description) => dispatch(sendPaymentRequest(amount, description))
+    sendPaymentRequest: (history, amount, description) => dispatch(createPayment(history, amount, description))
 });
 
-export default connect(null, matchDispatchToProps) (CreatePaymentRequest);
+export default connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest);
