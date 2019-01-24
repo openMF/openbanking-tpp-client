@@ -7,7 +7,7 @@ export class Layout extends PureComponent {
         return (<Page renderToolbar={() => <Toolbar>
             <div className="center">Bank name</div>
         </Toolbar>}>
-            <div>{this.props.children}</div>
+            {this.props.children}
         </Page>)
     }
 

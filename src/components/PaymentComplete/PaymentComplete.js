@@ -1,18 +1,16 @@
 import React, {PureComponent} from 'react'
 import {Layout} from "../Layout/Layout.js";
-import {Button} from "react-onsenui";
+import {Button, Card, List, ListItem} from "react-onsenui";
 import {Redirect} from "react-router-dom";
-import s from './PaymentComplete.css';
+import {connect} from "react-redux";
+import './PaymentComplete.css';
 
-export class PaymentComplete extends PureComponent {
+class PaymentComplete extends PureComponent {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            navigate: false,
-            referrer: null,
-        }
-    }
+    state = {
+        navigate: false,
+        referrer: null
+    };
 
     modifyState = (urlType) => {
         this.setState({
@@ -21,11 +19,11 @@ export class PaymentComplete extends PureComponent {
     };
 
     render() {
-        const { location } = this.props;
-        const urlType = location.pathname.split('/')[1];
+        const { user, payment } = this.props;
+        const { role } = user;
         let text = '';
 
-        switch (urlType) {
+        switch (role) {
             case 'customer':
                 text = "Payment successful";
                 break;
@@ -34,21 +32,42 @@ export class PaymentComplete extends PureComponent {
                 break;
         }
 
+        //src="https://www.freeiconspng.com/uploads/green-check-mark-2-icon-17.png"
+        //src="https://www.freeiconspng.com/uploads/check-mark-clipart-transparent-19.png"
+        //src="https://www.freeiconspng.com/uploads/check-mark-green-black-icon-1.png"
+        //src="https://www.freeiconspng.com/uploads/check-mark-8.png"
+        //src="https://www.freeiconspng.com/uploads/check-mark-png-file-images-circle-25.png"
+
         return (<Layout>
             <div className="wrapper">
                 <div className="text">
                     <h1>{text}</h1>
                 </div>
-                <div className="center">
+                <Card className="amount">{payment.amount} {'TZS'}</Card>
+                <div>
                     <img className="checkMark"
-                         src="https://www.pngkey.com/png/full/11-116060_check-mark-png.png"
-                         alt="Success"/>
+                         src="https://www.freeiconspng.com/uploads/check-mark-ok-png-10.png"
+                         alt="Payment received"/>
                 </div>
+                <Card>
+                    <h3>Confirmation</h3>
+                    <List modifier={'noborder'}
+                        dataSource={[['Payer Id',
+                            'T-39000122 John Smith, MnaziI Mmoja Street Zanzibar'],['Account', '11223344-11223344'], ['Description', 'Sjfsjd fdsanoas ffasnl bfa k asdb fsbf bf bdsa,bsadb']] }
+                        renderRow={(row, idx) => (
+                            <ListItem modifier='longdivider' >
+                                <div>
+                                    <div className="rowHeader">{row[0]}</div>
+                                    <div className="rowText">{row[1]} </div></div>
+                            </ListItem>
+                        )}
+                    />
+                </Card>
                 {this.state.navigate === true ?
                     <Redirect to={this.state.referrer}/>
                     :
                     <Button modifier="large--cta" onClick={() => {
-                        this.modifyState(urlType)
+                        this.modifyState(role)
                     }}> OK
                     </Button>
                 }
@@ -56,3 +75,10 @@ export class PaymentComplete extends PureComponent {
         </Layout>)
     }
 }
+
+const mapStateToProps = (state) => ({
+    payment: state.payment,
+    user: state.user,
+});
+
+export default connect(mapStateToProps)(PaymentComplete)

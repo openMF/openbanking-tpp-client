@@ -1,6 +1,6 @@
-import {SELECT_USER} from "./actions";
+import {LOGIN_COMPLETED, LOGIN_FAILED, LOGIN_STARTED, SELECT_USER} from "./actions";
 
-function user(state = {}, action) {
+export function user(state = {}, action) {
     switch (action.type) {
         case SELECT_USER:
             return action;
@@ -16,4 +16,4 @@ function user(state = {}, action) {
         default:
             return state
     }
-};
+}
