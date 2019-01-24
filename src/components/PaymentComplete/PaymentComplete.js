@@ -27,7 +27,7 @@ class PaymentComplete extends PureComponent {
             case 'customer':
                 text = "Payment successful";
                 break;
-            case 'merchant':
+            default:
                 text = "Payment received";
                 break;
         }
@@ -53,9 +53,9 @@ class PaymentComplete extends PureComponent {
                     <h3>Confirmation</h3>
                     <List modifier={'noborder'}
                         dataSource={[['Payer Id',
-                            'T-39000122 John Smith, MnaziI Mmoja Street Zanzibar'],['Account', '11223344-11223344'], ['Description', 'Sjfsjd fdsanoas ffasnl bfa k asdb fsbf bf bdsa,bsadb']] }
-                        renderRow={(row, idx) => (
-                            <ListItem modifier='longdivider' >
+                            'T-39000122 John Smith, MnaziI Mmoja Street Zanzibar'],['Account', '11223344-11223344'], ['Description', payment.description]] }
+                        renderRow={(row) => (
+                            <ListItem modifier='longdivider'>
                                 <div>
                                     <div className="rowHeader">{row[0]}</div>
                                     <div className="rowText">{row[1]} </div></div>
