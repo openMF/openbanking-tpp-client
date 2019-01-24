@@ -3,6 +3,7 @@ import {Layout} from "../../../components/Layout/Layout.js";
 import jsQR from "jsqr";
 import {setQrData} from "../../../store/qr/actions";
 import {connect} from "react-redux";
+import {QRTransaction} from "../../../models/QRTransaction";
 
 class ReadPaymentRequest extends PureComponent {
   stream;
@@ -40,7 +41,7 @@ class ReadPaymentRequest extends PureComponent {
 
       if (code) {
         this.stream.stop();
-        this.props.setData(code.data);
+        this.props.setData(QRTransaction.decode(code.data));
         this.props.history.push("/customer/approvePayment");
         return;
       }
