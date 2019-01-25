@@ -52,7 +52,7 @@ const NavRoot= withRouter(connect((state) => ({role: state.user.role})) (NavRoot
 class App extends Component {
     render() {
         return (
-            <Route path={ `/:colorTheme(lionbank|bufalobank)` } render={ props => <NavRoot { ...props } /> }/>
+            <Route path={ `/:colorTheme(lionbank|buffalobank)` } render={ props => <NavRoot { ...props } /> }/>
         );
     }
 }
