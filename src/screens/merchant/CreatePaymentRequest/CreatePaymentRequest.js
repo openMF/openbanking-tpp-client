@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import Layout from "../../../components/Layout/Layout.js";
 import {Button, Input} from "react-onsenui";
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import {createPayment} from "../../../store/payment/thunks.js";
 
 class CreatePaymentRequest extends PureComponent {
@@ -15,9 +15,8 @@ class CreatePaymentRequest extends PureComponent {
     render() {
         const {amount, description} = this.state;
         const {sendPaymentRequest, paymentRequestSent} = this.props;
-        //TODO Implement a form to get the payment amount(TZS) and payment note(description);
         return (<Layout>
-            <h1>CreatePaymentRequest</h1>
+            <h1>Prepare Order</h1>
             <div>
                 <Input
                     style={{marginBottom : "15px"}}
@@ -46,4 +45,4 @@ const matchDispatchToProps = (dispatch) => ({
     sendPaymentRequest: (history, amount, description) => dispatch(createPayment(history, amount, description))
 });
 
-export default connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest);
+export default withRouter(connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest));
