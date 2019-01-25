@@ -7,7 +7,7 @@ import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
 import {clearPaymentRequest} from '../../../store/payment/actions';
 import {NavLink, Redirect} from 'react-router-dom';
-import {setQrData} from "../../../store/qr/actions.js";
+import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -23,7 +23,7 @@ class GeneratedPaymentRequest extends PureComponent {
                 payment.amount,
                 payment.description);
             this.setState({qrData});
-            this.props.setQrData(qrData);
+            this.props.fetchPaymentResult(this.props.history, qrData);
         }
     }
 
@@ -48,7 +48,7 @@ const mapStateToProps = (state) => ({
 const matchDispatchToProps = dispatch => (
     {
         clearPaymentRequest: () => dispatch(clearPaymentRequest()),
-        setQrData: data => dispatch(setQrData(data)),
+        fetchPaymentResult: (history, qrData) => dispatch(fetchPaymentSuccess(history, qrData))
     }
 );
 

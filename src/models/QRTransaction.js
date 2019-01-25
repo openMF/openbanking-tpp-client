@@ -18,7 +18,7 @@ export class QRTransaction {
             tn: this.note,
             am: this.amount,
             cu: 'TZS',
-            refUrl: `https://fake.url/orderId=${UUID()}`
+            refUrl: `https://webshop.dpc.hu/orderId=${UUID()}`
         };
         let dataString = `upi://pay?`;
         for (const prop in data) {

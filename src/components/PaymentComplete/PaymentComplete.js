@@ -9,7 +9,7 @@ import './PaymentComplete.css';
 class PaymentComplete extends PureComponent {
 
     render() {
-        const {user, qr} = this.props;
+        const {user, qr, payment} = this.props;
         const {role} = user;
         let text = '';
         let dataSource = [];
@@ -20,7 +20,7 @@ class PaymentComplete extends PureComponent {
                 text = "Payment initiated";
                 dataSource = [
                     ['Merchant Id', qr.data.merchant.id],
-                    ['Merchant Account', qr.data.merchant.name]
+                    ['Merchant Account', qr.data.merchant.name],
                 ];
                 break;
             default:
@@ -34,7 +34,7 @@ class PaymentComplete extends PureComponent {
         dataSource = [...dataSource, ...[
             ['Description', qr.data.note],
             ['Merchant transaction reference', qr.data.clientRefId],
-            ['Transaction id:', 'd78465c0-200e-11e9-afbc-137c66f18197']
+            ['Transaction id:', payment.transactionId]
         ]];
 
         //src="https://www.freeiconspng.com/uploads/green-check-mark-2-icon-17.png"
@@ -66,7 +66,8 @@ class PaymentComplete extends PureComponent {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    qr: state.qr
+    qr: state.qr,
+    payment: state.payment
 });
 
 export default connect(mapStateToProps)(PaymentComplete)
