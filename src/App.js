@@ -12,6 +12,9 @@ import ApprovePayment from './screens/customer/ApprovePayment/ApprovePayment';
 import PaymentComplete from './components/PaymentComplete/PaymentComplete';
 import './green-gold.scss';
 import './gold-red.scss';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+
+
 
 
 const NavRootW = (props) => (<div className={`App ${props.match.params.colorTheme}`}>
@@ -25,20 +28,20 @@ const NavRootW = (props) => (<div className={`App ${props.match.params.colorThem
                         <Redirect to={`/${propsInner.match.params.colorTheme}/login`} /> :
                         <Redirect to={
                             props.role==='customer'
-                                    ?`/${propsInner.match.params.colorTheme}/customer/readPaymentRequest`:
-                                    `/${propsInner.match.params.colorTheme}/merchant/createPaymentRequest`
-                            }
-                    />
+                                ?`/${propsInner.match.params.colorTheme}/customer/readPaymentRequest`:
+                                `/${propsInner.match.params.colorTheme}/merchant/createPaymentRequest`
+                        }
+                        />
                 }/>
-                <Route exact path={`/:colorTheme/customer`} component={Customer} />
-                <Route path={`/:colorTheme/customer/readPaymentRequest`} component={ReadPaymentRequest}/>
-                <Route path={`/:colorTheme/customer/approvePayment`} component={ApprovePayment}/>
-                <Route path={`/:colorTheme/customer/paymentComplete`} component={PaymentComplete}/>
-                <Route exact path={`/:colorTheme/merchant`} component={Merchant} />
-                <Route path={`/:colorTheme/merchant/createPaymentRequest`} component={CreatePaymentRequest}/>
-                <Route path={`/:colorTheme/merchant/paymentRequest`} component={GeneratedPaymentRequest}/>
-                <Route path={`/:colorTheme/merchant/paymentComplete`} component={PaymentComplete}/>
-                <Route path={`/:colorTheme`} render={propsInner=> <Redirect to={`/${propsInner.match.params.colorTheme}/login`} />}/>
+                <ProtectedRoute exact path={`/:colorTheme/customer`} component={Customer} />
+                <ProtectedRoute path={`/:colorTheme/customer/readPaymentRequest`} component={ReadPaymentRequest}/>
+                <ProtectedRoute path={`/:colorTheme/customer/approvePayment`} component={ApprovePayment}/>
+                <ProtectedRoute path={`/:colorTheme/customer/paymentComplete`} component={PaymentComplete}/>
+                <ProtectedRoute exact path={`/:colorTheme/merchant`} component={Merchant} />
+                <ProtectedRoute path={`/:colorTheme/merchant/createPaymentRequest`} component={CreatePaymentRequest}/>
+                <ProtectedRoute path={`/:colorTheme/merchant/paymentRequest`} component={GeneratedPaymentRequest}/>
+                <ProtectedRoute path={`/:colorTheme/merchant/paymentComplete`} component={PaymentComplete}/>
+                <ProtectedRoute path={`/:colorTheme`} render={propsInner=> <Redirect to={`/${propsInner.match.params.colorTheme}/login`} />}/>
             </Switch>
         </div>
     </div>
