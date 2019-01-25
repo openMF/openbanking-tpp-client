@@ -5,8 +5,9 @@ import {QRTransaction} from "../../../models/QRTransaction.js";
 import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
-import { clearPaymentRequest } from '../../../store/payment/actions';
+import {clearPaymentRequest} from '../../../store/payment/actions';
 import {NavLink, Redirect} from 'react-router-dom';
+import {setQrData} from "../../../store/qr/actions.js";
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -14,14 +15,16 @@ class GeneratedPaymentRequest extends PureComponent {
     };
 
     componentDidMount() {
-        const {payment} = this.props;
         const user = this.props.user.rawUser;
-        const qrData = new QRTransaction(
-            new TransactionMerchant(user.username, `${user.firstName} ${user.lastName}`),
-            payment.amount,
-            payment.description);
-        this.setState({qrData});
-        console.log(QRTransaction.decode(qrData.encode()));
+        if(user){
+            const {payment} = this.props;
+            const qrData = new QRTransaction(
+                new TransactionMerchant(user.banks[0].partyIdInfo.partyIdentifier, `${user.firstName} ${user.lastName}`),
+                payment.amount,
+                payment.description);
+            this.setState({qrData});
+            this.props.setQrData(qrData);
+        }
     }
 
     render() {
@@ -29,8 +32,8 @@ class GeneratedPaymentRequest extends PureComponent {
         return (<Layout>
             <h1>PaymentRequest</h1>
             <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
-            <Button modifier="large--cta" onClick={()=> clearPaymentRequest()}>Create new payment request</Button>
-            {!paymentRequestSent&&<Redirect to={'/merchant/createPaymentRequest'}/>}
+            <Button modifier="large--cta" onClick={() => clearPaymentRequest()}>Create new payment request</Button>
+            {!paymentRequestSent && <Redirect to={'/merchant/createPaymentRequest'}/>}
             <NavLink to={`/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
         </Layout>)
     }
@@ -42,4 +45,11 @@ const mapStateToProps = (state) => ({
     paymentRequestSent: state.payment.paymentRequestSent
 });
 
-export default connect(mapStateToProps, dispatch=> ({clearPaymentRequest: ()=>dispatch(clearPaymentRequest())}))(GeneratedPaymentRequest)
+const matchDispatchToProps = dispatch => (
+    {
+        clearPaymentRequest: () => dispatch(clearPaymentRequest()),
+        setQrData: data => dispatch(setQrData(data)),
+    }
+);
+
+export default connect(mapStateToProps, matchDispatchToProps)(GeneratedPaymentRequest)

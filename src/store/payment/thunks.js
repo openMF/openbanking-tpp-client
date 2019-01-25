@@ -20,5 +20,5 @@ export const startPayment = history => (dispatch, getState) => {
 
 export const createPayment = (history, amount, description) => (dispatch) => {
     dispatch(sendPaymentRequest(amount, description));
-    history.push('/merchant/paymentRequest');
+    history.push && history.push('/merchant/paymentRequest');
 };
