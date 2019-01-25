@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import {withRouter} from "react-router-dom";
 import Layout from "../../components/Layout/Layout.js";
-import {Input, Button, Card} from 'react-onsenui';
+import { Input, Button, Card, Icon } from 'react-onsenui';
 import {connect} from 'react-redux';
 import {login} from "../../store/users/thunks";
 
@@ -44,7 +44,7 @@ class Login extends PureComponent {
             </div>
             {error && <Card><p style={{color: "red"}}>{error}</p></Card>}
             <Button modifier="large--cta" onClick={() => login(username, this.props.history , this.props.match.params.colorTheme)}>
-                Login
+                <Icon icon={'fa-sign-in-alt'} /> Login
             </Button>
         </Layout>)
     }

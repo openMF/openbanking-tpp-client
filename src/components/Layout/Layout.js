@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import { ToolbarButton, Page, Toolbar, Card } from "react-onsenui";
+import React, { Fragment, PureComponent } from 'react';
+import { ToolbarButton, Page, Toolbar, Card, Icon } from "react-onsenui";
 import { connect } from 'react-redux';
 import { logout } from '../../store/users/thunks';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -13,16 +13,17 @@ class Layout extends PureComponent {
 
         return (<Page renderToolbar={() => <Toolbar modifier={'material'}>
 
-            <div className="center">{role?`Welcome ${ username } (${isCustomer?'C':'M'})`: 'You are not logged in.'}</div>
+            <div className="center">{role?<Fragment>
+                <NavLink to={`/${this.props.match.params.colorTheme}/${role}`}><ToolbarButton modifier={'material'}><Icon icon={isCustomer?'fa-user-circle':'fa-building'}/> { username }</ToolbarButton></NavLink>
+            </Fragment>: 'You are not logged in.'}</div>
             {role&&<div className="right">
-                <NavLink to={`/${this.props.match.params.colorTheme}/${role}`}><ToolbarButton modifier={'material'}>My Profile</ToolbarButton></NavLink>
-                {isCustomer&&<NavLink to={`/${this.props.match.params.colorTheme}/${role}/readPaymentRequest`}><ToolbarButton modifier={'material'}>Pay Order</ToolbarButton></NavLink>}
-                {isMerchant&&<NavLink to={`/${this.props.match.params.colorTheme}/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}>Prepare Order</ToolbarButton></NavLink>}
-                <ToolbarButton onClick={()=>logout(history, this.props.match.params.colorTheme)} modifier={'material'}>Logout</ToolbarButton>
+                {isCustomer&&<NavLink to={`/${this.props.match.params.colorTheme}/${role}/readPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-qrcode'} /></ToolbarButton></NavLink>}
+                {isMerchant&&<NavLink to={`/${this.props.match.params.colorTheme}/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-money-check-alt'} /></ToolbarButton></NavLink>}
+                <ToolbarButton onClick={()=>logout(history, this.props.match.params.colorTheme)} modifier={'material'}><Icon icon={'fa-sign-out-alt'}/></ToolbarButton>
             </div>}
 
         </Toolbar>}
-                      contentStyle={{padding: 20}}>
+        >
             <Card modifier={'material'} style={{  textAlign: 'center'}}>
             {this.props.children}
             </Card>
