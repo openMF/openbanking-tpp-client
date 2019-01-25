@@ -19,15 +19,15 @@ class PaymentComplete extends PureComponent {
             case 'customer':
                 text = "Payment initiated";
                 dataSource = [
-                    ['Merchant Id', qr.data.merchant.id],
-                    ['Merchant Account', qr.data.merchant.name],
+                    ['Merchant Name', qr.data.merchant.name],
+                    ['Merchant Account', qr.data.merchant.id],
                 ];
                 break;
             default:
                 text = "Payment received";
                 dataSource = [
                     ['Customer Name', 'John Smith'],
-                    ['Customer Account', 'IC11in01tn0131d77b06141c11e9ab14d6']
+                    ['Customer Account', payment.payerId]
                 ];
         }
 
@@ -36,12 +36,6 @@ class PaymentComplete extends PureComponent {
             ['Merchant transaction reference', qr.data.clientRefId],
             ['Transaction id:', payment.transactionId]
         ]];
-
-        //src="https://www.freeiconspng.com/uploads/green-check-mark-2-icon-17.png"
-        //src="https://www.freeiconspng.com/uploads/check-mark-clipart-transparent-19.png"
-        //src="https://www.freeiconspng.com/uploads/check-mark-green-black-icon-1.png"
-        //src="https://www.freeiconspng.com/uploads/check-mark-8.png"
-        //src="https://www.freeiconspng.com/uploads/check-mark-png-file-images-circle-25.png"
 
         return (<Layout>
             <div className="wrapper">

@@ -31,8 +31,11 @@ export const createPayment = (history, amount, description, theme) => (dispatch)
 export const fetchPaymentSuccess = (history, qrData, theme) => (dispatch) => {
     dispatch(setQrData(qrData));
     axiosRetry(axios, {
-        retries: 500,
-        shouldResetTimeout: true
+        retries: 600,
+        shouldResetTimeout: true,
+        retryDelay: () => {
+            return 1000;
+        }
     });
 
     axios.get(`${SERVER_URL}/client/${qrData.clientRefId}`).then(

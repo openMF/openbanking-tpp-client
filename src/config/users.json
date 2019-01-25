@@ -1,8 +1,8 @@
 [
   {
-    "username": "user1",
-    "firstName": "First1",
-    "lastName": "Last1",
+    "username": "merchant",
+    "firstName": "Carl",
+    "lastName": "Baker",
     "role": "merchant",
     "banks": [
       {
@@ -15,9 +15,9 @@
     ]
   },
   {
-    "username": "user2",
-    "firstName": "First2",
-    "lastName": "Last2",
+    "username": "customer",
+    "firstName": "John",
+    "lastName": "Smith",
     "role": "customer",
     "banks": [
       {

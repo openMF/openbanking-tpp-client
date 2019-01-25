@@ -14,7 +14,9 @@ export function user(state = initialState, action) {
             return {...state, loading: false,
                 rawUser: action.payload.user,
                 username: action.payload.user.username,
-                role: action.payload.user.role};
+                role: action.payload.user.role,
+                fullname: `${action.payload.user.firstName} ${action.payload.user.lastName}`
+            };
         case LOGOUT: return initialState;
         default:
             return state

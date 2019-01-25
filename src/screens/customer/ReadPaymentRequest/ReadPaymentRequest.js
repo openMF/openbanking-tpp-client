@@ -19,7 +19,11 @@ class ReadPaymentRequest extends PureComponent {
     render() {
         return (
             <Layout>
-                <QrReader onScan={this.handleScan} onError={(error) => console.log(error) }/>
+                <QrReader
+                    onScan={this.handleScan}
+                    onError={(error) => console.log(error)}
+                    style={{width: "80vmin", height: "80vmin"}}
+                />
             </Layout>
         );
     }

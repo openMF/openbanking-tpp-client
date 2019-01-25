@@ -2,19 +2,23 @@ import React, {PureComponent} from 'react'
 import {DataList} from "../../../components/DataList/DataList.js";
 import Layout from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
-import {Button, Icon} from "react-onsenui";
+import {Button, Card, Icon} from "react-onsenui";
 import {startPayment} from "../../../store/payment/thunks";
 
 class ApprovePayment extends PureComponent {
     render() {
         const {data} = this.props;
         return (<Layout>
-            <h1>ApprovePayment</h1>
+            <h1>Approve Payment</h1>
+
+            <Card className="amount">
+                {data.amount} {'TZS'} <br/>
+                {data.note}
+            </Card>
+
             <DataList modifier="noborder" dataSource={[
                 ['Merchant:', data.merchant.name],
-                ['Merchant account:', data.merchant.id],
-                ['Note:', data.note],
-                ['Amount:', data.amount + ' TZS']
+                ['Merchant account:', data.merchant.id]
             ]}/>
             <br/>
             <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history, this.props.match.params.colorTheme)} style={{backgroundColor: '#00aa00'}}>

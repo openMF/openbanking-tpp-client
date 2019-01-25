@@ -19,6 +19,7 @@ class CreatePaymentRequest extends PureComponent {
             <h1>Prepare Order</h1>
             <div>
                 <Input
+                    type="number"
                     style={{marginBottom : "15px"}}
                     value={amount} float
                     onChange={(event) => { this.setState({amount: event.target.value})} }

@@ -7,6 +7,7 @@ import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
 import {NavLink} from 'react-router-dom';
 import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
+import './GeneratedPaymentRequest.scss'
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -28,10 +29,13 @@ class GeneratedPaymentRequest extends PureComponent {
 
     render() {
         return (<Layout>
-            <h1>PaymentRequest</h1>
-            <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
-            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/createPaymentRequest`}><Button modifier="large--cta">Create new payment request</Button></NavLink>
-            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
+            <h1>Payment Request</h1>
+            <QRCode
+                value={this.state.qrData.encode ? this.state.qrData.encode() : ''}
+                level="M"
+                className="qr-size"
+                size="1000"
+            />
         </Layout>)
     }
 }
