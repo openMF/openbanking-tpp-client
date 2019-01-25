@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react'
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import {Button, Input} from "react-onsenui";
 import {connect} from 'react-redux';
-import {Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {createPayment} from "../../../store/payment/thunks.js";
 
 class CreatePaymentRequest extends PureComponent {
@@ -14,7 +14,7 @@ class CreatePaymentRequest extends PureComponent {
 
     render() {
         const {amount, description} = this.state;
-        const {sendPaymentRequest, paymentRequestSent} = this.props;
+        const {sendPaymentRequest} = this.props;
         return (<Layout>
             <h1>Prepare Order</h1>
             <div>
@@ -34,16 +34,15 @@ class CreatePaymentRequest extends PureComponent {
                     placeholder='Description'
                 />
             </div>
-            <Button modifier="large--cta" onClick={() => sendPaymentRequest(this.props.history, amount, description)}>
+            <Button modifier="large--cta" onClick={() => sendPaymentRequest(this.props.history, amount, description, this.props.match.params.colorTheme)}>
                 Create Payment Request
             </Button>
-            {paymentRequestSent&&<Redirect to={'/merchant/paymentRequest'}/>}
         </Layout>)
     }
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    sendPaymentRequest: (history, amount, description) => dispatch(createPayment(history, amount, description))
+    sendPaymentRequest: (history, amount, description, theme) => dispatch(createPayment(history, amount, description, theme))
 });
 
 export default withRouter(connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest));

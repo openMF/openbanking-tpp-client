@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react'
 import {connect} from "react-redux";
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import {QRTransaction} from "../../../models/QRTransaction.js";
 import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
-import {clearPaymentRequest} from '../../../store/payment/actions';
-import {NavLink, Redirect} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
 
 class GeneratedPaymentRequest extends PureComponent {
@@ -28,13 +27,11 @@ class GeneratedPaymentRequest extends PureComponent {
     }
 
     render() {
-        const {paymentRequestSent, clearPaymentRequest} = this.props;
         return (<Layout>
             <h1>PaymentRequest</h1>
             <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
-            <Button modifier="large--cta" onClick={() => clearPaymentRequest()}>Create new payment request</Button>
-            {!paymentRequestSent && <Redirect to={'/merchant/createPaymentRequest'}/>}
-            <NavLink to={`/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
+            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/createPaymentRequest`}><Button modifier="large--cta">Create new payment request</Button></NavLink>
+            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
         </Layout>)
     }
 }
@@ -42,12 +39,10 @@ class GeneratedPaymentRequest extends PureComponent {
 const mapStateToProps = (state) => ({
     user: state.user,
     payment: state.payment,
-    paymentRequestSent: state.payment.paymentRequestSent
 });
 
 const matchDispatchToProps = dispatch => (
     {
-        clearPaymentRequest: () => dispatch(clearPaymentRequest()),
         fetchPaymentResult: (history, qrData) => dispatch(fetchPaymentSuccess(history, qrData))
     }
 );

@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import {DataList} from "../DataList/DataList.js";
-import {Layout} from "../Layout/Layout.js";
+import Layout from "../Layout/Layout.js";
 import {Button, Card} from "react-onsenui";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
@@ -58,7 +58,7 @@ class PaymentComplete extends PureComponent {
                 <DataList modifier="noborder" title="Confirmation" dataSource={dataSource}
                 />
 
-                <NavLink to={`/`}><Button modifier="large--cta">OK</Button></NavLink>
+                <NavLink to={`/${this.props.match.params.colorTheme}`}><Button modifier="large--cta">OK</Button></NavLink>
             </div>
         </Layout>)
     }

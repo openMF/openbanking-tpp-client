@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react'
 import {DataList} from "../../../components/DataList/DataList.js";
-import {Layout} from "../../../components/Layout/Layout.js";
+import Layout from "../../../components/Layout/Layout.js";
 import {connect} from "react-redux";
-import {Button} from "react-onsenui";
+import {Button, Icon} from "react-onsenui";
 import {startPayment} from "../../../store/payment/thunks";
 
 class ApprovePayment extends PureComponent {
@@ -16,11 +16,14 @@ class ApprovePayment extends PureComponent {
                 ['Note:', data.note],
                 ['Amount:', data.amount + ' TZS']
             ]}/>
-            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
-                Approve
+            <br/>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history, this.props.match.params.colorTheme)} style={{backgroundColor: '#00aa00'}}>
+                <Icon icon={'md-check-circle'} /> Approve
             </Button>
-            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)}>
-                Reject
+            <br/>
+            <br/>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history, this.props.match.params.colorTheme)} style={{backgroundColor: '#aa0000'}}>
+                <Icon icon={'md-close-circle'} /> Reject
             </Button>
             </Layout>)
     }
@@ -31,7 +34,7 @@ const mapStateToProps = state => ({
 });
 
 const matchDispatchToProps = dispatch => ({
-    startPayment: history => dispatch(startPayment(history)),
+    startPayment: (history,theme) => dispatch(startPayment(history, theme)),
 });
 
 export default connect(mapStateToProps, matchDispatchToProps) (ApprovePayment)
