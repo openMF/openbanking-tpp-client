@@ -6,8 +6,6 @@ import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
 import {Button} from "react-onsenui";
 import {NavLink} from 'react-router-dom';
-import {clearPaymentRequest} from '../../../store/payment/actions';
-import {NavLink, Redirect} from 'react-router-dom';
 import {setQrData} from "../../../store/qr/actions.js";
 
 class GeneratedPaymentRequest extends PureComponent {
@@ -29,12 +27,11 @@ class GeneratedPaymentRequest extends PureComponent {
     }
 
     render() {
-        const {paymentRequestSent, clearPaymentRequest} = this.props;
         return (<Layout>
             <h1>PaymentRequest</h1>
             <QRCode value={this.state.qrData.encode ? this.state.qrData.encode() : ''} level="M"/>
-            <NavLink to={`/merchant/createPaymentRequest`}><Button modifier="large--cta">Create new payment request</Button></NavLink>
-            <NavLink to={`/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
+            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/createPaymentRequest`}><Button modifier="large--cta">Create new payment request</Button></NavLink>
+            <NavLink to={`/${this.props.match.params.colorTheme}/merchant/paymentComplete`}><Button modifier="large--cta">OK</Button></NavLink>
         </Layout>)
     }
 }
@@ -46,7 +43,6 @@ const mapStateToProps = (state) => ({
 
 const matchDispatchToProps = dispatch => (
     {
-        clearPaymentRequest: () => dispatch(clearPaymentRequest()),
         setQrData: data => dispatch(setQrData(data)),
     }
 );

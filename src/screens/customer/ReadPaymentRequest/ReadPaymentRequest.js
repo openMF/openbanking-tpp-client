@@ -42,7 +42,7 @@ class ReadPaymentRequest extends PureComponent {
       if (code) {
         this.stream.stop();
         this.props.setData(QRTransaction.decode(code.data));
-        this.props.history.push("/customer/approvePayment");
+        this.props.history.push(`/${ this.props.match.params.colorTheme }/customer/approvePayment`);
         return;
       }
     }
