@@ -1,6 +1,8 @@
-import {LOGIN_COMPLETED, LOGIN_FAILED, LOGIN_STARTED, SELECT_USER} from "./actions";
+import {LOGIN_COMPLETED, LOGIN_FAILED, LOGIN_STARTED, SELECT_USER, LOGOUT} from "./actions";
 
-export function user(state = {}, action) {
+const initialState = {};
+
+export function user(state = initialState, action) {
     switch (action.type) {
         case SELECT_USER:
             return action;
@@ -13,6 +15,7 @@ export function user(state = {}, action) {
                 rawUser: action.payload.user,
                 username: action.payload.user.username,
                 role: action.payload.user.role};
+        case LOGOUT: return initialState;
         default:
             return state
     }

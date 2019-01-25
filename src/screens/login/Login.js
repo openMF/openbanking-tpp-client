@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import {withRouter} from "react-router-dom";
-import {Layout} from "../../components/Layout/Layout.js";
+import Layout from "../../components/Layout/Layout.js";
 import {Input, Button, Card} from 'react-onsenui';
 import {connect} from 'react-redux';
 import {login} from "../../store/users/thunks";
@@ -20,14 +20,21 @@ class Login extends PureComponent {
             <div>
                 <Input
                     style={{marginBottom : "15px"}}
+                    id={'sometweqrqwer'}
+                    name={'sometweqrqwer'}
+                    autoComplete={'off'}
                     value={username} float
                     onChange={(event) => { this.setState({username: event.target.value})} }
                     modifier='material'
-                    placeholder='Username' />
+                    placeholder='Username'
+                />
             </div>
             <div>
                 <Input
                     style={{marginBottom : "15px"}}
+                    id={'sometasdfasdf'}
+                    name={'sometasdfasdf'}
+                    autoComplete={'off'}
                     value={password} float
                     onChange={(event) => { this.setState({password: event.target.value})} }
                     modifier='material'
@@ -36,7 +43,7 @@ class Login extends PureComponent {
                 />
             </div>
             {error && <Card><p style={{color: "red"}}>{error}</p></Card>}
-            <Button modifier="large--cta" onClick={() => login(username, this.props.history )}>
+            <Button modifier="large--cta" onClick={() => login(username, this.props.history , this.props.match.params.colorTheme)}>
                 Login
             </Button>
         </Layout>)
@@ -50,7 +57,7 @@ const mapStateToProps = (state) => ({
 });
 
 const matchDispatchToProps = (dispatch) => ({
-    login: (username, history) => dispatch(login(username, history))
+    login: (username, history, theme) => dispatch(login(username, history, theme))
 });
 
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));

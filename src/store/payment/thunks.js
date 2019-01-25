@@ -3,7 +3,7 @@ import {Transaction} from "../../models/transaction";
 import { SERVER_URL } from "../../config/server";
 import {sendPaymentRequest} from "./actions.js";
 
-export const startPayment = history => (dispatch, getState) => {
+export const startPayment = (history,theme) => (dispatch, getState) => {
   const {user, qr} = getState();
   const {partyIdentifier: clientId} = user.rawUser.banks[0].partyIdInfo;
   const {amount, clientRefId, note, merchant} = qr.data;
@@ -12,13 +12,13 @@ export const startPayment = history => (dispatch, getState) => {
 
   axios.post(`${SERVER_URL}/pay`, {...transaction})
       .then(response => {
-        if (response.status === 200) history.push('/customer/paymentComplete');
+        if (response.status === 200) history.push(`/${ theme }/customer/paymentComplete`);
       })
       .catch(() => {
       });
 };
 
-export const createPayment = (history, amount, description) => (dispatch) => {
+export const createPayment = (history, amount, description, theme) => (dispatch) => {
     dispatch(sendPaymentRequest(amount, description));
-    history.push && history.push('/merchant/paymentRequest');
+    history.push && history.push(`/${ theme }/merchant/paymentRequest`);
 };
