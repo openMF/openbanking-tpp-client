@@ -28,7 +28,7 @@ export const createPayment = (history, amount, description, theme) => (dispatch)
     history.push && history.push(`/${ theme }/merchant/paymentRequest`);
 };
 
-export const fetchPaymentSuccess = (history, qrData) => (dispatch) => {
+export const fetchPaymentSuccess = (history, qrData, theme) => (dispatch) => {
     dispatch(setQrData(qrData));
     axiosRetry(axios, {
         retries: 500,
@@ -41,7 +41,7 @@ export const fetchPaymentSuccess = (history, qrData) => (dispatch) => {
                 response.data.transactionId,
                 response.data.originalRequestData.payer.partyIdInfo.partyIdentifier
             ));
-            history.push('/merchant/paymentComplete');
+            history.push(`/${ theme }/merchant/paymentComplete`);
         }
     ).catch(() => {
     });

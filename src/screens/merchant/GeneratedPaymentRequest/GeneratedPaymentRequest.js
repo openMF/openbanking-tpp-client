@@ -22,7 +22,7 @@ class GeneratedPaymentRequest extends PureComponent {
                 payment.amount,
                 payment.description);
             this.setState({qrData});
-            this.props.fetchPaymentResult(this.props.history, qrData);
+            this.props.fetchPaymentResult(this.props.history, qrData, this.props.match.params.colorTheme);
         }
     }
 
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => ({
 
 const matchDispatchToProps = dispatch => (
     {
-        fetchPaymentResult: (history, qrData) => dispatch(fetchPaymentSuccess(history, qrData))
+        fetchPaymentResult: (history, qrData, theme) => dispatch(fetchPaymentSuccess(history, qrData, theme))
     }
 );
 

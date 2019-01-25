@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {applyMiddleware, createStore} from "redux";
@@ -32,7 +32,7 @@ const persistor = persistStore(store);
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-            <Router>
+            <Router basename="/banks">
                 <App/>
             </Router>
         </PersistGate>
