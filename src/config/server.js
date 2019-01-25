@@ -1,1 +1,1 @@
-export const SERVER_URL = 'https://payments.dpc.hu/in01m/channel';
+export const SERVER_URL = 'https://payments.dpc.hu/in01/channel';
