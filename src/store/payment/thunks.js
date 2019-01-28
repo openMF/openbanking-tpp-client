@@ -3,7 +3,7 @@ import {Transaction} from "../../models/transaction";
 import {SERVER_URL} from "../../config/server";
 import {setQrData} from "../qr/actions.js";
 import {sendPaymentRequest, setPaymentSuccess, setTransactionsId} from "./actions.js";
-import axiosRetry from "axios-retry";
+import axiosRetry, { isNetworkOrIdempotentRequestError } from "axios-retry";
 
 export const startPayment = (history,theme) => (dispatch, getState) => {
     const {user, qr} = getState();
@@ -28,11 +28,12 @@ export const createPayment = (history, amount, description, theme) => (dispatch)
     history.push && history.push(`/${ theme }/merchant/paymentRequest`);
 };
 
-export const fetchPaymentSuccess = (history, qrData, theme) => (dispatch) => {
+export const fetchPaymentSuccess = (history, qrData, theme) => (dispatch, getState) => {
     dispatch(setQrData(qrData));
     axiosRetry(axios, {
         retries: 600,
         shouldResetTimeout: true,
+        retryCondition: (e)=> getState().qr.isPolling && isNetworkOrIdempotentRequestError(e),
         retryDelay: () => {
             return 1000;
         }
