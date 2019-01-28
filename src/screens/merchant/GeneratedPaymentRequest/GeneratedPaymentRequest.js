@@ -8,6 +8,7 @@ import {Button} from "react-onsenui";
 import {NavLink} from 'react-router-dom';
 import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
 import './GeneratedPaymentRequest.scss'
+import { cancelQrPoll } from '../../../store/qr/actions';
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -25,6 +26,10 @@ class GeneratedPaymentRequest extends PureComponent {
             this.setState({qrData});
             this.props.fetchPaymentResult(this.props.history, qrData, this.props.match.params.colorTheme);
         }
+    }
+
+    componentWillUnmount() {
+        this.props.cancelPolling();
     }
 
     render() {
@@ -47,7 +52,8 @@ const mapStateToProps = (state) => ({
 
 const matchDispatchToProps = dispatch => (
     {
-        fetchPaymentResult: (history, qrData, theme) => dispatch(fetchPaymentSuccess(history, qrData, theme))
+        fetchPaymentResult: (history, qrData, theme) => dispatch(fetchPaymentSuccess(history, qrData, theme)),
+        cancelPolling: () => dispatch(cancelQrPoll()),
     }
 );
 
