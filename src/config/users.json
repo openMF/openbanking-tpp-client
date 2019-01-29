@@ -9,7 +9,7 @@
         "bankName": "Bank1",
         "partyIdInfo": {
           "partyIdType": "IBAN",
-          "partyIdentifier": "IC11in02tn01305e663e1e4611e9ab14d6"
+          "partyIdentifier": "IC11in01tn0283c4ed1c074b484e85cc79"
         }
       }
     ]
@@ -24,7 +24,7 @@
         "bankName": "Bank2",
         "partyIdInfo": {
           "partyIdType": "IBAN",
-          "partyIdentifier": "IC11in01tn0283c4ed1c074b484e85cc79"
+          "partyIdentifier": "IC11in01tn0131d77b06141c11e9ab14d6"
         }
       }
     ]
