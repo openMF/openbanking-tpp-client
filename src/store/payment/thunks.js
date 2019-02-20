@@ -7,12 +7,15 @@ import axiosRetry, { isNetworkOrIdempotentRequestError } from "axios-retry";
 
 export const startPayment = (history,theme) => (dispatch, getState) => {
     const {user, qr} = getState();
-    const {partyIdentifier: clientId} = user.rawUser.banks[0].partyIdInfo;
+    const clientId = user.rawUser.banks[0].partyIdInfo;
     const {amount, clientRefId, note, merchant} = qr.data;
 
-    const transaction = new Transaction(merchant.id, clientRefId, amount, note, clientId);
+    const transaction = new Transaction({partyIdentifier: merchant.id, partyIdType: merchant.idType}, clientRefId, amount, note, clientId);
+    console.log('Transaction', transaction, clientId);
 
-    axios.post(`${SERVER_URL}`, {...transaction})
+    axios.post(`${SERVER_URL}`, {...transaction}, {
+        headers: {'X-Tenant-Identifier': 'tn01'}
+    })
         .then(response => {
             if (response.status === 200) {
                 dispatch(setTransactionsId(response.data.transactionId));
@@ -30,22 +33,15 @@ export const createPayment = (history, amount, description, theme) => (dispatch)
 
 export const fetchPaymentSuccess = (history, qrData, theme) => (dispatch, getState) => {
     dispatch(setQrData(qrData));
-    axiosRetry(axios, {
-        retries: 600,
-        shouldResetTimeout: true,
-        retryCondition: (e)=> getState().qr.isPolling && isNetworkOrIdempotentRequestError(e),
-        retryDelay: () => {
-            return 1000;
-        }
-    });
-
     axios.get(`${SERVER_URL}/client/${qrData.clientRefId}`).then(
         response => {
-            dispatch(setPaymentSuccess(
-                response.data.transactionId,
-                response.data.originalRequestData.payer.partyIdInfo.partyIdentifier
-            ));
-            history.push(`/${ theme }/merchant/paymentComplete`);
+            if(response.data.transferState === 'COMMITTED'){
+                dispatch(setPaymentSuccess(
+                    response.data.transactionId,
+                    response.data.originalRequestData.payer.partyIdInfo.partyIdentifier
+                ));
+                history.push(`/${theme}/merchant/paymentComplete`);
+            }
         }
     ).catch(() => {
     });

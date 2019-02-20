@@ -2,11 +2,11 @@ import {DateTime} from 'luxon';
 
 export class Transaction {
 
-  constructor(merchantId, clientRefId, amount, note, customerId = '') {
-    this.payer = new PartyIdInfo(customerId);
-    this.payee = new PartyIdInfo(merchantId, 'merchant');
+  constructor(merchant, clientRefId, amount, note, customer) {
+    this.payer = new PartyIdInfo(customer);
+    this.payee = new PartyIdInfo(merchant, 'merchant');
     this.amountType = "RECEIVE";
-    this.transferAmount = {
+    this.amount = {
       amount,
       currency: "TZS"
     };
@@ -25,10 +25,8 @@ export class Transaction {
 
 class PartyIdInfo {
   constructor(id, type) {
-    this.partyIdInfo = {
-      partyIdType: 'IBAN',
-      partyIdentifier: id
-    };
+    console.log('PartyIdInfo', id);
+    this.partyIdInfo = {...id};
     if (type === 'merchant') {
       this.partyIdInfo.merchantClassificationCode = ""
     }

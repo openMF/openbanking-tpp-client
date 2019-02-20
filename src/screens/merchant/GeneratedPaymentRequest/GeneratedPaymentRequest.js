@@ -4,11 +4,9 @@ import Layout from "../../../components/Layout/Layout.js";
 import {QRTransaction} from "../../../models/QRTransaction.js";
 import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
-import {Button} from "react-onsenui";
-import {NavLink} from 'react-router-dom';
 import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
 import './GeneratedPaymentRequest.scss'
-import { cancelQrPoll } from '../../../store/qr/actions';
+import {cancelQrPoll} from '../../../store/qr/actions';
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
@@ -17,15 +15,31 @@ class GeneratedPaymentRequest extends PureComponent {
 
     componentDidMount() {
         const user = this.props.user.rawUser;
-        if(user){
+        if (user) {
             const {payment} = this.props;
             const qrData = new QRTransaction(
-                new TransactionMerchant(user.banks[0].partyIdInfo.partyIdentifier, `${user.firstName} ${user.lastName}`),
+                new TransactionMerchant(user.banks[0].partyIdInfo, `${user.firstName} ${user.lastName}`),
                 payment.amount,
                 payment.description);
             this.setState({qrData});
             this.props.fetchPaymentResult(this.props.history, qrData, this.props.match.params.colorTheme);
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.qr.isPolling) {
+            setTimeout(
+                () => this.props.fetchPaymentResult(this.props.history, this.state.qrData, this.props.match.params.colorTheme),
+                1000);
+            if(nextState.qrData !== this.state.qrData){
+                return true;
+            }
+            return false;
+        }
+        else {
+            return true;
+        }
+
     }
 
     componentWillUnmount() {
@@ -48,6 +62,7 @@ class GeneratedPaymentRequest extends PureComponent {
 const mapStateToProps = (state) => ({
     user: state.user,
     payment: state.payment,
+    qr: state.qr
 });
 
 const matchDispatchToProps = dispatch => (

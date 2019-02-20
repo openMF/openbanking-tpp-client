@@ -11,7 +11,7 @@ export class QRTransaction {
 
     encode() {
         const data = {
-            pa: this.merchant.id,
+            pa: this.merchant.idType + '::' + this.merchant.id,
             pn: this.merchant.name,
             mc: this.merchant.code,
             tr: this.clientRefId,
