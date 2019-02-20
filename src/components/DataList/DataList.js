@@ -1,4 +1,5 @@
 import React from "react";
+import UUID from "uuid/v1.js"
 import {Card, List, ListItem} from "react-onsenui";
 
 export const DataList = (props) => (props.dataSource ? <Card>
@@ -6,7 +7,7 @@ export const DataList = (props) => (props.dataSource ? <Card>
     <List modifier={props.modifier}
           dataSource={props.dataSource}
           renderRow={(row) => (
-              <ListItem modifier='longdivider'>
+              <ListItem modifier='longdivider' key={UUID()}>
                   <div>
                       <div className="rowHeader">{row[0]}</div>
                       <div className="rowText">{row[1]} </div>

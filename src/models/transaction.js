@@ -2,7 +2,7 @@ import {DateTime} from 'luxon';
 
 export class Transaction {
 
-  constructor(merchant, clientRefId, amount, note, customer) {
+  constructor(merchant, clientRefId, amount, note, customer, scenario = 'PAYMENT') {
     this.payer = new PartyIdInfo(customer);
     this.payee = new PartyIdInfo(merchant, 'merchant');
     this.amountType = "RECEIVE";
@@ -12,7 +12,7 @@ export class Transaction {
     };
     this.clientRefId = clientRefId;
     this.transactionType = {
-      "scenario": "PAYMENT",
+      scenario,
       "initiator": "PAYER",
       "initiatorType": "CONSUMER"
     };

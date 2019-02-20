@@ -10,6 +10,7 @@ import GeneratedPaymentRequest from './screens/merchant/GeneratedPaymentRequest/
 import ReadPaymentRequest from './screens/customer/ReadPaymentRequest/ReadPaymentRequest';
 import ApprovePayment from './screens/customer/ApprovePayment/ApprovePayment';
 import PaymentComplete from './components/PaymentComplete/PaymentComplete';
+import CustomerInitiatedPayment from './screens/customer/CreatePaymentRequest/CreatePaymentRequest'
 import './green-gold.scss';
 import './gold-red.scss';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -35,6 +36,7 @@ const NavRootW = (props) => (<div className={`App ${props.match.params.colorThem
                 }/>
                 <ProtectedRoute exact path={`/:colorTheme/customer`} component={Customer} />
                 <ProtectedRoute path={`/:colorTheme/customer/readPaymentRequest`} component={ReadPaymentRequest}/>
+                <ProtectedRoute path={`/:colorTheme/customer/createPaymentRequest`} component={CustomerInitiatedPayment}/>
                 <ProtectedRoute path={`/:colorTheme/customer/approvePayment`} component={ApprovePayment}/>
                 <ProtectedRoute path={`/:colorTheme/customer/paymentComplete`} component={PaymentComplete}/>
                 <ProtectedRoute exact path={`/:colorTheme/merchant`} component={Merchant} />

@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react'
+import {clearPaymentRequest} from "../../store/payment/actions.js";
+import {setQrData} from "../../store/qr/actions.js";
 import {DataList} from "../DataList/DataList.js";
 import Layout from "../Layout/Layout.js";
 import {Button, Card} from "react-onsenui";
@@ -8,32 +10,37 @@ import './PaymentComplete.css';
 
 class PaymentComplete extends PureComponent {
 
+    componentWillUnmount() {
+        this.props.clearPaymentRequest();
+        this.props.clearQrData();
+    }
+
     render() {
         const {user, qr, payment} = this.props;
         const {role} = user;
         let text = '';
         let dataSource = [];
-        let amount = qr.data.amount;
+        let amount = qr.data ? qr.data.amount : payment.amount;
 
         switch (role) {
             case 'customer':
                 text = "Payment initiated";
                 dataSource = [
-                    ['Merchant Name', qr.data.merchant.name],
-                    ['Merchant Account', qr.data.merchant.id],
+                    qr.data ? ['Merchant Name', qr.data.merchant.name] : ['Payee Name', payment.payeeName],
+                    qr.data ? ['Merchant Account', qr.data.merchant.id] : ['Payee Account', payment.payeeId]
                 ];
                 break;
             default:
                 text = "Payment received";
                 dataSource = [
-                    ['Customer Name', 'John Smith'],
-                    ['Customer Account', payment.payerId]
+                    [qr.data ? 'Customer Name' : 'Payer Name', 'John Smith'],
+                    [qr.data ? 'Customer Account' : 'Payer Account', payment.payerId]
                 ];
         }
 
         dataSource = [...dataSource, ...[
-            ['Description', qr.data.note],
-            ['Merchant transaction reference', qr.data.clientRefId],
+            ['Description', qr.data ? qr.data.note : payment.description],
+            ['Merchant transaction reference', qr.data ? qr.data.clientRefId : payment.clientRefId],
             ['Transaction id:', payment.transactionId]
         ]];
 
@@ -52,7 +59,8 @@ class PaymentComplete extends PureComponent {
                 <DataList modifier="noborder" title="Confirmation" dataSource={dataSource}
                 />
 
-                <NavLink to={`/${this.props.match.params.colorTheme}`}><Button modifier="large--cta">OK</Button></NavLink>
+                <NavLink to={`/${this.props.match.params.colorTheme}`}><Button
+                    modifier="large--cta">OK</Button></NavLink>
             </div>
         </Layout>)
     }
@@ -64,4 +72,9 @@ const mapStateToProps = (state) => ({
     payment: state.payment
 });
 
-export default connect(mapStateToProps)(PaymentComplete)
+const mapDispatchToProps = (dispatch) => ({
+    clearPaymentRequest: () => dispatch(clearPaymentRequest()),
+    clearQrData: () => dispatch(setQrData(null))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentComplete)
