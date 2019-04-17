@@ -1,4 +1,4 @@
-import { CANCEL_QR_POLL, SET_DATA } from "./actions";
+import {CANCEL_QR_POLL, CLEAR_QR_DATA, SET_DATA} from "./actions";
 
 const initialState = {
   data: "",
@@ -11,6 +11,8 @@ function qr(state = initialState, action) {
       return Object.assign({}, state, {isPolling: action.payload.isPolling});
     case SET_DATA:
       return Object.assign({}, state, {data: action.payload.data}, {isPolling: true});
+    case CLEAR_QR_DATA:
+      return initialState;
     default:
       return state
   }

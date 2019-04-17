@@ -21,12 +21,12 @@ class ApprovePayment extends PureComponent {
                 ['Merchant account:', data.merchant.id]
             ]}/>
             <br/>
-            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history, this.props.match.params.colorTheme)} style={{backgroundColor: '#00aa00'}}>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)} style={{backgroundColor: '#00aa00'}}>
                 <Icon icon={'md-check-circle'} /> Approve
             </Button>
             <br/>
             <br/>
-            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history, this.props.match.params.colorTheme)} style={{backgroundColor: '#aa0000'}}>
+            <Button modifier="large--cta" onClick={() => this.props.startPayment(this.props.history)} style={{backgroundColor: '#aa0000'}}>
                 <Icon icon={'md-close-circle'} /> Reject
             </Button>
             </Layout>)
@@ -38,7 +38,7 @@ const mapStateToProps = state => ({
 });
 
 const matchDispatchToProps = dispatch => ({
-    startPayment: (history,theme) => dispatch(startPayment(history, theme)),
+    startPayment: (history) => dispatch(startPayment(history)),
 });
 
 export default connect(mapStateToProps, matchDispatchToProps) (ApprovePayment)

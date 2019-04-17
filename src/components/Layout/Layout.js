@@ -14,17 +14,17 @@ class Layout extends PureComponent {
         return (<Page renderToolbar={() => <Toolbar modifier={'material'}>
 
             <div className="center">{role?<Fragment>
-                <NavLink to={`/${this.props.match.params.colorTheme}/${role}`}>
+                <NavLink to={`/${role}`}>
                     <ToolbarButton modifier={'material'}>
                         <Icon icon={isCustomer?'fa-user-circle':'fa-building'}/> { fullname }
                     </ToolbarButton>
                 </NavLink>
             </Fragment>: 'You are not logged in.'}</div>
             {role&&<div className="right">
-                {isCustomer&& <NavLink to={`/${this.props.match.params.colorTheme}/${role}/readPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-qrcode'} /></ToolbarButton></NavLink>}
-                {isCustomer&& <NavLink to={`/${this.props.match.params.colorTheme}/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-money-bill'} /></ToolbarButton></NavLink>}
-                {isMerchant&&<NavLink to={`/${this.props.match.params.colorTheme}/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-money-check-alt'} /></ToolbarButton></NavLink>}
-                <ToolbarButton onClick={()=>logout(history, this.props.match.params.colorTheme)} modifier={'material'}><Icon icon={'fa-sign-out-alt'}/></ToolbarButton>
+                {isCustomer&& <NavLink to={`/${role}/readPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-qrcode'} /></ToolbarButton></NavLink>}
+                {isCustomer&& <NavLink to={`/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-money-bill'} /></ToolbarButton></NavLink>}
+                {isMerchant&&<NavLink to={`/${role}/createPaymentRequest`}><ToolbarButton modifier={'material'}><Icon icon={'fa-money-check-alt'} /></ToolbarButton></NavLink>}
+                <ToolbarButton onClick={()=>logout(history)} modifier={'material'}><Icon icon={'fa-sign-out-alt'}/></ToolbarButton>
             </div>}
 
         </Toolbar>}
@@ -37,4 +37,4 @@ class Layout extends PureComponent {
 
 }
 
-export default withRouter(connect(state=>({fullname: state.user.fullname, role: state.user.role}), dispatch=>({logout:(history, theme)=>dispatch(logout(history, theme))}))(Layout));
+export default withRouter(connect(state=>({fullname: state.user.fullname, role: state.user.role}), dispatch=>({logout:(history)=>dispatch(logout(history))}))(Layout));

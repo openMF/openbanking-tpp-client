@@ -1,18 +1,26 @@
 import users from '../../config/users';
-import { loginCompleted, loginFailed, loginStarted, logoutUser } from "./actions";
+import {clearPaymentRequest} from "../payment/actions.js";
+import {clearQrData} from "../qr/actions.js";
+import {loginCompleted, loginFailed, loginStarted, logoutUser} from "./actions";
 
-export const login = (username, history, theme) => dispatch => {
+export const login = (username, history) => (dispatch, getState) => {
     dispatch(loginStarted());
-    const registeredUser = users.find( user => user.username === username);
+    const {bank} = getState();
+    const registeredUser = users.find(user => {
+        const allowedBank = user.banks.find(userBank => userBank.bankName === bank) ? true : false;
+        return user.username === username && allowedBank;
+    });
     if (registeredUser) {
         dispatch(loginCompleted(registeredUser));
-        history.push(`/${ theme }`);
+        history.push(`/`);
     } else {
         dispatch(loginFailed());
     }
 };
 
-export const logout = (history,theme) => dispatch => {
-  dispatch(logoutUser());
-  history.push(`/${ theme }`);
+export const logout = (history) => dispatch => {
+    dispatch(logoutUser());
+    dispatch(clearPaymentRequest());
+    dispatch(clearQrData());
+    history.push(`/`);
 };

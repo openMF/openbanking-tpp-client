@@ -1,12 +1,27 @@
 [
   {
-    "username": "merchant",
+    "username": "buffalo_customer",
+    "firstName": "John",
+    "lastName": "Smith",
+    "role": "customer",
+    "banks": [
+      {
+        "bankName": "buffalo",
+        "partyIdInfo": {
+          "partyIdType": "MSISDN",
+          "partyIdentifier": "27710101999"
+        }
+      }
+    ]
+  },
+  {
+    "username": "lion_merchant",
     "firstName": "Carl",
     "lastName": "Baker",
     "role": "merchant",
     "banks": [
       {
-        "bankName": "Bank1",
+        "bankName": "lion",
         "partyIdInfo": {
           "partyIdType": "MSISDN",
           "partyIdentifier": "27710102999"
@@ -15,13 +30,28 @@
     ]
   },
   {
-    "username": "customer",
+    "username": "rhino_customer",
     "firstName": "John",
     "lastName": "Smith",
     "role": "customer",
     "banks": [
       {
-        "bankName": "Bank2",
+        "bankName": "rhino",
+        "partyIdInfo": {
+          "partyIdType": "MSISDN",
+          "partyIdentifier": "27710203999"
+        }
+      }
+    ]
+  },
+  {
+    "username": "elephant_merchant",
+    "firstName": "John",
+    "lastName": "Smith",
+    "role": "merchant",
+    "banks": [
+      {
+        "bankName": "elephant",
         "partyIdInfo": {
           "partyIdType": "MSISDN",
           "partyIdentifier": "27710101999"

@@ -43,7 +43,7 @@ class Login extends PureComponent {
                 />
             </div>
             {error && <Card><p style={{color: "red"}}>{error}</p></Card>}
-            <Button modifier="large--cta" onClick={() => login(username, this.props.history , this.props.match.params.colorTheme)}>
+            <Button modifier="large--cta" onClick={() => login(username, this.props.history)}>
                 <Icon icon={'fa-sign-in-alt'} /> Login
             </Button>
         </Layout>)
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
 });
 
 const matchDispatchToProps = (dispatch) => ({
-    login: (username, history, theme) => dispatch(login(username, history, theme))
+    login: (username, history) => dispatch(login(username, history))
 });
 
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));

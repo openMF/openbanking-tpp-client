@@ -22,14 +22,14 @@ class GeneratedPaymentRequest extends PureComponent {
                 payment.amount,
                 payment.description);
             this.setState({qrData});
-            this.props.fetchPaymentResult(this.props.history, qrData, this.props.match.params.colorTheme);
+            this.props.fetchPaymentResult(this.props.history, qrData);
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.qr.isPolling) {
             setTimeout(
-                () => this.props.fetchPaymentResult(this.props.history, this.state.qrData, this.props.match.params.colorTheme),
+                () => this.props.fetchPaymentResult(this.props.history, this.state.qrData),
                 1000);
             if(nextState.qrData !== this.state.qrData){
                 return true;
@@ -67,7 +67,7 @@ const mapStateToProps = (state) => ({
 
 const matchDispatchToProps = dispatch => (
     {
-        fetchPaymentResult: (history, qrData, theme) => dispatch(fetchPaymentSuccess(history, qrData, theme)),
+        fetchPaymentResult: (history, qrData) => dispatch(fetchPaymentSuccess(history, qrData)),
         cancelPolling: () => dispatch(cancelQrPoll()),
     }
 );

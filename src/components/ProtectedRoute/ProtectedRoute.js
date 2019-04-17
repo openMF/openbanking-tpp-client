@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class ProtectedRoute extends React.PureComponent{
     render() {
         const {role, component: Component, ...rest} = this.props;
-        return <Route {...rest} render={props=> role?<Component {...props}/>:<Redirect to={`/${this.props.match.params.colorTheme}/login`}/> }/>
+        return <Route {...rest} render={props=> role?<Component {...props}/>:<Redirect to={`/login`}/> }/>
     }
 }
 

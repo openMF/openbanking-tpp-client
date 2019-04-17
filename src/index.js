@@ -32,7 +32,7 @@ const persistor = persistStore(store);
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-            <Router basename="/banks">
+            <Router basename="/netbank">
                 <App/>
             </Router>
         </PersistGate>

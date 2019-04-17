@@ -31,8 +31,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "yarn build",
-    "deploy": "cd build && tar cv . | ssh -J ec2-user@54.241.70.181 ec2-user@10.1.0.110  \"cd /srv/nginx/banks; tar xv\""
+    "predeploy1": "yarn build",
+    "predeploy2": "yarn build",
+    "deploy1": "cd build && tar cv . | ssh mojaloop-hackathon1  \"cd /srv/nginx/banks; tar xv\"",
+    "deploy2": "cd build && tar cv . | ssh mojaloop-hackathon2  \"cd /srv/nginx/banks; tar xv\""
   },
   "eslintConfig": {
     "extends": "react-app"

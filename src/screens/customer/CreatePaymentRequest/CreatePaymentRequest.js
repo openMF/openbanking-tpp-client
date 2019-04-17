@@ -47,7 +47,7 @@ class CreatePaymentRequest extends PureComponent {
             </div>
             <Button modifier="large--cta" onClick={() => sendPaymentRequest({
                 payeeId: merchantId, description, amount
-            }, this.props.history, this.props.match.params.colorTheme)}>
+            }, this.props.history)}>
                 Create Payment Request
             </Button>
         </Layout>)
@@ -55,7 +55,7 @@ class CreatePaymentRequest extends PureComponent {
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    sendPaymentRequest: (paymentInfo, history, theme) => dispatch(customerInitiatedPaymentRequest(paymentInfo, history, theme))
+    sendPaymentRequest: (paymentInfo, history) => dispatch(customerInitiatedPaymentRequest(paymentInfo, history))
 });
 
 export default withRouter(connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest));

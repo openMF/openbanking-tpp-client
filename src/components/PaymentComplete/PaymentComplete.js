@@ -59,7 +59,7 @@ class PaymentComplete extends PureComponent {
                 <DataList modifier="noborder" title="Confirmation" dataSource={dataSource}
                 />
 
-                <NavLink to={`/${this.props.match.params.colorTheme}`}><Button
+                <NavLink to={`/`}><Button
                     modifier="large--cta">OK</Button></NavLink>
             </div>
         </Layout>)
