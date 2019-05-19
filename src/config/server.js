@@ -12,5 +12,10 @@ export const getTenantId = (bank) => {
             return 'tn03';
         case 'elephant':
             return 'tn04';
+        default:
+            return 'tn01';
     }
 };
+
+export const MAX_POLL_RETRY = 200;
+export const POLL_INTERVAL = 3000;

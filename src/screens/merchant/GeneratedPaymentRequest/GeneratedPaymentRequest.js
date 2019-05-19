@@ -1,45 +1,49 @@
-import React, {PureComponent} from 'react'
-import {connect} from "react-redux";
-import Layout from "../../../components/Layout/Layout.js";
-import {QRTransaction} from "../../../models/QRTransaction.js";
-import {TransactionMerchant} from "../../../models/TransactionMerchant.js";
 import QRCode from 'qrcode.react';
-import {fetchPaymentSuccess} from "../../../store/payment/thunks.js";
-import './GeneratedPaymentRequest.scss'
-import {cancelQrPoll} from '../../../store/qr/actions';
+import React, { PureComponent } from 'react';
+import { Button } from 'react-onsenui';
+import { connect } from "react-redux";
+import Layout from "../../../components/Layout/Layout.js";
+import { MAX_POLL_RETRY, POLL_INTERVAL } from '../../../config/server.js';
+import { QRTransaction } from "../../../models/QRTransaction.js";
+import { TransactionMerchant } from "../../../models/TransactionMerchant.js";
+import { fetchPaymentSuccess } from "../../../store/payment/thunks.js";
+import { cancelQrPoll, resetPollingCounter } from '../../../store/qr/actions';
+import './GeneratedPaymentRequest.scss';
 
 class GeneratedPaymentRequest extends PureComponent {
     state = {
-        qrData: {}
+        qrData: {},
+        showContinuePolling: false
     };
+
+    startPolling = (qrData) => {
+        if(this.state.showContinuePolling){
+            this.props.resetPollingCounter();
+            this.setState({showContinuePolling: false});
+        }
+        const interval = setInterval(() => {
+            console.log('INTERVAL', this.props.qr);
+            if (this.props.qr.requestCount === 0 || (this.props.qr.isPolling && this.props.qr.requestCount < MAX_POLL_RETRY)) {
+                this.props.fetchPaymentResult(this.props.history, qrData);
+            } else {
+                clearInterval(interval);
+                this.setState({showContinuePolling: true});
+            }
+        }, POLL_INTERVAL)
+    }
 
     componentDidMount() {
         const user = this.props.user.rawUser;
         if (user) {
-            const {payment} = this.props;
+            const { payment } = this.props;
             const qrData = new QRTransaction(
                 new TransactionMerchant(user.banks[0].partyIdInfo, `${user.firstName} ${user.lastName}`),
                 payment.amount,
                 payment.description);
-            this.setState({qrData});
-            this.props.fetchPaymentResult(this.props.history, qrData);
+            this.setState({ qrData });
+            ;
+            this.startPolling(qrData);
         }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.qr.isPolling) {
-            setTimeout(
-                () => this.props.fetchPaymentResult(this.props.history, this.state.qrData),
-                1000);
-            if(nextState.qrData !== this.state.qrData){
-                return true;
-            }
-            return false;
-        }
-        else {
-            return true;
-        }
-
     }
 
     componentWillUnmount() {
@@ -55,6 +59,7 @@ class GeneratedPaymentRequest extends PureComponent {
                 className="qr-size"
                 size="1000"
             />
+            { this.state.showContinuePolling && <Button modifier="large--cta" onClick={() => this.startPolling(this.state.qrData)}>Continue fetching payment informations </Button> }
         </Layout>)
     }
 }
@@ -69,6 +74,7 @@ const matchDispatchToProps = dispatch => (
     {
         fetchPaymentResult: (history, qrData) => dispatch(fetchPaymentSuccess(history, qrData)),
         cancelPolling: () => dispatch(cancelQrPoll()),
+        resetPollingCounter: () => dispatch(resetPollingCounter())
     }
 );
 

@@ -2,11 +2,13 @@ import UUID from "uuid/v1.js";
 import {TransactionMerchant} from "./TransactionMerchant";
 
 export class QRTransaction {
-    constructor(merchant, amount, note, clientRefId){
+    constructor(merchant, amount, note, clientRefId, currency = 'TZS', refURL = `https://webshop.dpc.hu/orderId=${UUID()}`){
         this.merchant = merchant;
         this.clientRefId = clientRefId || UUID();
         this.note = note;
         this.amount = amount
+        this.currency = currency;
+        this.refURL = refURL;
     }
 
     encode() {
@@ -17,8 +19,8 @@ export class QRTransaction {
             tr: this.clientRefId,
             tn: this.note,
             am: this.amount,
-            cu: 'TZS',
-            refUrl: `https://webshop.dpc.hu/orderId=${UUID()}`
+            cu: this.currency,
+            refUrl: this.refURL
         };
         let dataString = `upi://pay?`;
         for (const prop in data) {
