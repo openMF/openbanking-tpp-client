@@ -16,17 +16,19 @@ class GeneratedPaymentRequest extends PureComponent {
         showContinuePolling: false
     };
 
+    interval = null;
+
     startPolling = (qrData) => {
         if(this.state.showContinuePolling){
             this.props.resetPollingCounter();
             this.setState({showContinuePolling: false});
         }
-        const interval = setInterval(() => {
+        this.interval = setInterval(() => {
             console.log('INTERVAL', this.props.qr);
             if (this.props.qr.requestCount === 0 || (this.props.qr.isPolling && this.props.qr.requestCount < MAX_POLL_RETRY)) {
                 this.props.fetchPaymentResult(this.props.history, qrData);
             } else {
-                clearInterval(interval);
+                clearInterval(this.interval);
                 this.setState({showContinuePolling: true});
             }
         }, POLL_INTERVAL)
@@ -47,6 +49,9 @@ class GeneratedPaymentRequest extends PureComponent {
     }
 
     componentWillUnmount() {
+        if(this.interval) {
+            clearInterval(this.interval);
+        }
         this.props.cancelPolling();
     }
 
