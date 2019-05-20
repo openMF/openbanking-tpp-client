@@ -66,9 +66,10 @@ export const fetchPaymentSuccess = (history, qrData) => (dispatch, getState) => 
     axios.get(`${getServerUrl(bank)}/client/${qrData.clientRefId}`).then(
         response => {
             if (response.data.transferState === 'COMMITTED') {
+                const payerId = response.data.originalRequestData ? response.data.originalRequestData.payer.partyIdInfo.partyIdentifier : "27710203999"
                 dispatch(setPaymentSuccess(
                     response.data.transactionId,
-                    response.data.originalRequestData.payer.partyIdInfo.partyIdentifier
+                    payerId
                 ));
                 history.push(`/merchant/paymentComplete`);
             }
