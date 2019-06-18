@@ -24,7 +24,6 @@ class BankList extends Component {
           dataSource={bankList}
           renderRow={row => (
             <ListItem
-              modifier="material"
               tappable
               className="bank-list-item"
               key={UUID()}
