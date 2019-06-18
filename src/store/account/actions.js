@@ -2,16 +2,16 @@ export const GET_ACCOUNTS_REQUESTED = "GET_ACCOUNTS_REQUESTED";
 export const GET_ACCOUNTS_FAILED = "GET_ACCOUNTS_FAILED";
 export const GET_ACCOUNTS_SUCCEEDED = "GET_ACCOUNTS_SUCCEEDED";
 
-export const GetAccountsRequested = () => ({
+export const getAccountsRequested = () => ({
   type: GET_ACCOUNTS_REQUESTED,
 });
 
-export const GetAccountsFailed = error => ({
+export const getAccountsFailed = error => ({
   type: GET_ACCOUNTS_FAILED,
   error
 });
 
-export const GetAccountsSucceeded = payload => ({
+export const getAccountsSucceeded = payload => ({
   type: GET_ACCOUNTS_SUCCEEDED,
   payload
 });
@@ -20,16 +20,16 @@ export const GET_ACCOUNT_REQUESTED = "GET_ACCOUNT_REQUESTED";
 export const GET_ACCOUNT_FAILED = "GET_ACCOUNT_FAILED";
 export const GET_ACCOUNT_SUCCEEDED = "GET_ACCOUNT_SUCCEEDED";
 
-export const GetAccountRequested = () => ({
+export const getAccountRequested = () => ({
   type: GET_ACCOUNT_REQUESTED,
 });
 
-export const GetAccountFailed = error => ({
+export const getAccountFailed = error => ({
   type: GET_ACCOUNT_FAILED,
   error
 });
 
-export const GetAccountSucceeded = payload => ({
+export const getAccountSucceeded = payload => ({
   type: GET_ACCOUNT_SUCCEEDED,
   payload
 });

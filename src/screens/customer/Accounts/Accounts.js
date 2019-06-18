@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./Accounts.scss";
 import UUID from "uuid/v1.js";
 import { NavLink } from "react-router-dom";
-import { List, ListItem, ListHeader } from "react-onsenui";
+import { List, ListItem, ListHeader, Button } from "react-onsenui";
 import Layout from "../../../components/Layout/Layout";
 import { getAccounts } from "../../../store/account/thunks";
 
@@ -19,8 +19,7 @@ class Accounts extends Component {
         <List
           renderHeader={() => (
             <ListHeader style={{ fontSize: 18 }} className="account-title">
-              {" "}
-              Accounts{" "}
+              Accounts
             </ListHeader>
           )}
           dataSource={accounts}
@@ -33,8 +32,10 @@ class Accounts extends Component {
                 key={UUID()}
               >
                 <div className="left">{row.nickname}</div>
-                <div className="center account-credit-indicator">
-                  {row.balance.creditDebitIndicator}
+                <div className="center">
+                  <span className="list-item__subtitle">
+                    {row.balance.creditDebitIndicator}
+                  </span>
                 </div>
                 <div className="right">
                   {`${row.balance.amount.amount} ${row.currency}`}
@@ -43,6 +44,11 @@ class Accounts extends Component {
             </NavLink>
           )}
         />
+        <NavLink to={`/customer/accounts/new`}>
+          <Button modifier="outline" className="btn-add-account">
+            Add Account
+          </Button>
+        </NavLink>
       </Layout>
     );
   }

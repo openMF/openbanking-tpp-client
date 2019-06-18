@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import {setBank} from "./store/bank/actions.js";
 import Accounts from './screens/customer/Accounts/Accounts';
 import Account from './screens/customer/Account/Account';
+import BankList from './screens/customer/BankList/BankList';
 
 const NavRootW = (props) => {
     const theme = 'elephant';
@@ -31,6 +32,7 @@ const NavRootW = (props) => {
                     }/>
                     <ProtectedRoute exact path={`/customer`} component={Customer} />
                     <ProtectedRoute exact path={`/customer/accounts`} component={Accounts}/>
+                    <ProtectedRoute exact path={`/customer/accounts/new`} component={BankList}/>
                     <ProtectedRoute path={`/customer/accounts/:accountId`} component={Account}/>
                     <ProtectedRoute path={`/customer/createPaymentRequest`} component={CustomerInitiatedPayment}/>
                     <ProtectedRoute path={`/customer/approvePayment`} component={ApprovePayment}/>
