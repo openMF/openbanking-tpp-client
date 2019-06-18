@@ -1,0 +1,27 @@
+.account-header {
+    position: relative;
+
+    .back {
+        position: absolute;
+        left: -10px;
+        top: -5px;
+        color: #888;
+        width: 30px;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+}
+
+.account-detail{
+    display: flex;
+    margin: 10px;
+    justify-content: flex-start;
+
+    .title {
+        font-weight: 600;
+        flex: 0 0 28%;
+        text-align: left;
+    }
+}

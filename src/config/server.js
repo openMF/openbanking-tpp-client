@@ -1,4 +1,5 @@
 export const SERVER_URL = 'https://payments.dpc.hu/in01/channel/transactions';
+export const API_URL = 'http://localhost:4000';
 
 export const getServerUrl = (bank) => `https://${bank}.mlabs.dpc.hu/api/transactions`;
 

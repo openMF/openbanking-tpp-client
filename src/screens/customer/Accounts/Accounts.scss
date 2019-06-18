@@ -1,0 +1,14 @@
+.account-title {
+  padding: 10px 15px 10px;
+}
+
+.account-item {
+    &:not(last-child) {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .account-owner {
+        color: #aaa;
+        font-size: 12px;
+    }
+}
