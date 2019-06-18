@@ -16,12 +16,11 @@
 
 .account-detail{
     display: flex;
-    margin: 10px;
-    justify-content: flex-start;
+    margin: 15px;
+    justify-content: space-between;
 
     .title {
         font-weight: 600;
-        flex: 0 0 28%;
         text-align: left;
     }
 }

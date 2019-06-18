@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, NavLink} from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { Icon } from "react-onsenui";
 import "./Account.scss";
 import Layout from "../../../components/Layout/Layout";
@@ -18,7 +18,7 @@ class Account extends Component {
       <Layout>
         <div>
           <div className="account-header">
-            <NavLink to='/customer/accounts' className="back">
+            <NavLink to="/customer/accounts" className="back">
               <Icon size={30} className="fa-angle-left" />
             </NavLink>
             <h2>Account details</h2>
@@ -30,21 +30,31 @@ class Account extends Component {
                 <div>{account.nickname}</div>
               </div>
               <div className="account-detail">
-                <div className="title">Currency:</div>
-                <div>{account.currency}</div>
-              </div>
-              <div className="account-detail">
                 <div className="title">Status:</div>
                 <div>{account.status}</div>
-              </div>
-              <div className="account-detail">
-                <div className="title">Type:</div>
-                <div>{account.accountType}</div>
               </div>
               <div className="account-detail">
                 <div className="title">Owner:</div>
                 <div>{account.account[0].name}</div>
               </div>
+              <div className="account-detail">
+                <div className="title">Type:</div>
+                <div>{account.balance.creditDebitIndicator}</div>
+              </div>
+              <div className="account-detail">
+                <div className="title">Amount:</div>
+                <div>{`${account.balance.amount.amount} ${
+                  account.balance.amount.currency
+                }`}</div>
+              </div>
+              {account.balance.creditLine && (
+                <div className="account-detail">
+                  <div className="title">Credit line amount:</div>
+                  <div>{`${account.balance.creditLine[0].amount.amount} ${
+                    account.balance.creditLine[0].amount.currency
+                  }`}</div>
+                </div>
+              )}
             </React.Fragment>
           )}
         </div>

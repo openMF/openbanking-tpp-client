@@ -7,7 +7,6 @@ import { List, ListItem, ListHeader } from "react-onsenui";
 import Layout from "../../../components/Layout/Layout";
 import { getAccounts } from "../../../store/account/thunks";
 
-
 class Accounts extends Component {
   componentDidMount() {
     this.props.getAccounts();
@@ -34,10 +33,12 @@ class Accounts extends Component {
                 key={UUID()}
               >
                 <div className="left">{row.nickname}</div>
-                <div className="center account-owner">
-                  of {row.account[0].name}
+                <div className="center account-credit-indicator">
+                  {row.balance.creditDebitIndicator}
                 </div>
-                <div className="right">{row.currency} </div>
+                <div className="right">
+                  {`${row.balance.amount.amount} ${row.currency}`}
+                </div>
               </ListItem>
             </NavLink>
           )}
