@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
 import './App.css';
-import Customer from "./screens/customer";
+
 import Login from "./screens/login";
 import ApprovePayment from './screens/customer/ApprovePayment/ApprovePayment';
 import PaymentComplete from './components/PaymentComplete/PaymentComplete';
@@ -32,7 +32,6 @@ const NavRootW = (props) => {
                             <Redirect to={`/login`} /> :
                             <Redirect to={`/customer/banks`} />
                     }/>
-                    {/* <ProtectedRoute exact path={`/customer`} component={Customer} /> */}
                     <ProtectedRoute exact path={`/customer/banks`} component={ConnectedBanks}/>
                     <ProtectedRoute exact path={`/customer/accounts`} component={Accounts}/>
                     <ProtectedRoute exact path={`/customer/accounts/new`} component={BankList}/>

@@ -8,27 +8,36 @@ import {
   getAccountFailed
 } from "./actions";
 import { API_URL } from "../../config/server";
-import toCamel from '../../utils/toCamelHelper';
+import toCamel from "../../utils/toCamelHelper";
 
 const baseUrl = `${API_URL}/aisp/v1`;
 
-export const getAccounts = () => dispatch => {
-  dispatch(getAccountsRequested());
-
-  Promise.all([
-    axios.get(`${baseUrl}/accounts`),
-    axios.get(`${baseUrl}/balances`)
+const getAccountData = async (bankId, dispatch, getState) => {
+  return Promise.all([
+    axios.get(`${baseUrl}/accounts`, { headers: { "x-tpp-bankid": bankId } }),
+    axios.get(`${baseUrl}/balances`, { headers: { "x-tpp-bankid": bankId } })
   ])
     .then(responses => {
       const accounts = toCamel(responses[0].data).data.account;
       const balances = toCamel(responses[1].data).data.balance;
       const extendedAccounts = accounts.map(account => {
-        const balance = balances.find(b=>b.accountId === account.accountId);
-        return {...account, balance};
-      })
-      dispatch(getAccountsSucceeded(extendedAccounts));
+        const balance = balances.find(b => b.accountId === account.accountId);
+        return { ...account, balance, bankId };
+      });
+      const allAccounts = getState().accounts.accounts.concat(extendedAccounts);
+      dispatch(getAccountsSucceeded(allAccounts));
     })
-    .catch(error => dispatch(getAccountsFailed(error)));
+    .catch(error => {
+      // handle error code 428;
+      dispatch(getAccountsFailed(error));
+    });
+};
+
+export const getAccounts = bankIds => (dispatch, getState) => {
+  dispatch(getAccountsRequested());
+  for (const bankId of bankIds) {
+    getAccountData(bankId, dispatch, getState);
+  }
 };
 
 export const getAccount = accountId => dispatch => {
@@ -41,7 +50,7 @@ export const getAccount = accountId => dispatch => {
     .then(responses => {
       const account = toCamel(responses[0].data).data.account[0];
       const balance = toCamel(responses[1].data).data.balance[0];
-      dispatch(getAccountSucceeded({...account, balance}));
+      dispatch(getAccountSucceeded({ ...account, balance }));
     })
     .catch(error => dispatch(getAccountFailed(error)));
 };

@@ -9,7 +9,14 @@ import { getAccounts } from "../../../store/account/thunks";
 
 class Accounts extends Component {
   componentDidMount() {
-    this.props.getAccounts();
+    const { connectedBanks, getAccounts } = this.props;
+    const bankIds = connectedBanks.map(b => b.bankId);
+    getAccounts(bankIds);
+  }
+
+  getBank = bankId => {
+    const { connectedBanks } = this.props;
+    return connectedBanks.find(b=>b.bankId === bankId);
   }
 
   render() {
@@ -24,15 +31,17 @@ class Accounts extends Component {
           )}
           dataSource={accounts}
           renderRow={row => (
-            <NavLink to={`/customer/accounts/${row.accountId}`}>
-              <ListItem
-                modifier="chevron"
-                tappable
-                className="account-item"
-                key={UUID()}
-              >
-                <div className="left">{row.nickname}</div>
+            <NavLink to={`/customer/accounts/${row.accountId}`} key={UUID()}>
+              <ListItem modifier="chevron" tappable className="account-item">
+                <div className="left">
+                  <img
+                    class="list-item__thumbnail"
+                    src={this.getBank(row.bankId).logoUrl}
+                    alt={this.getBank(row.bankId).shortName}
+                  />
+                </div>
                 <div className="center">
+                  <span className="list-item__title">{row.nickname}</span>
                   <span className="list-item__subtitle">
                     {row.balance.creditDebitIndicator}
                   </span>
@@ -55,11 +64,12 @@ class Accounts extends Component {
 }
 
 const mapStateToProps = state => ({
-  accounts: state.accounts.accounts
+  accounts: state.accounts.accounts,
+  connectedBanks: state.bank.connectedBanks
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAccounts: () => dispatch(getAccounts())
+  getAccounts: bankIds => dispatch(getAccounts(bankIds))
 });
 
 export default connect(
