@@ -5,6 +5,9 @@ import {
   getBankListSucceeded,
   addNewBankRequested,
   addNewBankFailed,
+  authorizeBankRequested,
+  authorizeBankFailed,
+  authorizeBankSucceeded,
   registerNewBankRequested,
   registerNewBankFailed,
   registerNewBankSucceeded,
@@ -52,6 +55,18 @@ export const registerNewBank = consentId => async dispatch => {
     throw error;
   }
 };
+
+export const authorizeBank = code => async dispatch => {
+  dispatch(authorizeBankRequested());
+
+  try {
+    await axios.post(`${API_URL}/token/v1/code/${code}`);
+    dispatch(authorizeBankSucceeded());
+  } catch (error) {
+    dispatch(authorizeBankFailed(error));
+    throw error;
+  }
+}
 
 export const getConnectedBanks = () => dispatch => {
   dispatch(getConnectedBanksRequested());

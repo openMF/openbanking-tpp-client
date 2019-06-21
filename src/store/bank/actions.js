@@ -5,6 +5,7 @@ export const setBank = theme => ({
   payload: theme
 });
 
+// get bank list 
 export const GET_BANK_LIST_REQUESTED = "GET_BANK_LIST_REQUESTED";
 export const GET_BANK_LIST_FAILED = "GET_BANK_LIST_FAILED";
 export const GET_BANK_LIST_SUCCEEDED = "GET_BANK_LIST_SUCCEEDED";
@@ -23,6 +24,7 @@ export const getBankListSucceeded = payload => ({
   payload
 });
 
+// add new bank
 export const ADD_NEW_BANK_REQUESTED = "ADD_NEW_BANK_REQUESTED";
 export const ADD_NEW_BANK_FAILED = "ADD_NEW_BANK_FAILED";
 export const ADD_NEW_BANK_CLEARED = "ADD_NEW_BANK_CLEARED";
@@ -39,6 +41,26 @@ export const addNewBankCleared = () => ({
   type: ADD_NEW_BANK_CLEARED
 });
 
+// authorize bank
+export const AUTHORIZE_BANK_REQUESTED = "AUTHORIZE_BANK_REQUESTED";
+export const AUTHORIZE_BANK_FAILED = "AUTHORIZE_BANK_FAILED";
+export const AUTHORIZE_BANK_SUCCEEDED = "AUTHORIZE_BANK_SUCCEEDED";
+
+export const authorizeBankRequested = () => ({
+  type: AUTHORIZE_BANK_REQUESTED
+});
+
+export const authorizeBankFailed = error => ({
+  type: AUTHORIZE_BANK_FAILED,
+  error
+});
+
+export const authorizeBankSucceeded = payload => ({
+  type: AUTHORIZE_BANK_SUCCEEDED,
+  payload
+});
+
+// register new bank
 export const REGISTER_NEW_BANK_REQUESTED = "REGISTER_NEW_BANK_REQUESTED";
 export const REGISTER_NEW_BANK_FAILED = "REGISTER_NEW_BANK_FAILED";
 export const REGISTER_NEW_BANK_SUCCEEDED = "REGISTER_NEW_BANK_SUCCEEDED";
@@ -57,6 +79,7 @@ export const registerNewBankSucceeded = payload => ({
   payload
 });
 
+// get connected banks
 export const GET_CONNECTED_BANKS_REQUESTED = "GET_CONNECTED_BANKS_REQUESTED";
 export const GET_CONNECTED_BANKS_FAILED = "GET_CONNECTED_BANKS_FAILED";
 export const GET_CONNECTED_BANKS_SUCCEEDED = "GET_CONNECTED_BANKS_SUCCEEDED";
