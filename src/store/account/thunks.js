@@ -28,9 +28,19 @@ const getAccountData = async (bankId, dispatch, getState) => {
       dispatch(getAccountsSucceeded(allAccounts));
     })
     .catch(error => {
-      // handle error code 428;
+      if (error.response.status === 428) {
+        throw error.response;
+      }
       dispatch(getAccountsFailed(error));
     });
+};
+
+export const getConsentIdForBankRegistration = async bankId => {
+  try {
+    await getAccountData(bankId);
+  } catch (error) {
+    return error.headers["x-tpp-consentid"];
+  }
 };
 
 export const getAccounts = bankIds => (dispatch, getState) => {

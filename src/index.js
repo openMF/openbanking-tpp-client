@@ -31,11 +31,11 @@ const persistor = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
             <Router basename="/netbank">
                 <App/>
             </Router>
-        </PersistGate>
+        {/* </PersistGate> */}
     </Provider>
     , document.getElementById('root'));
 

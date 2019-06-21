@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import UUID from "uuid/v1.js";
 import { List, ListItem, ListHeader } from "react-onsenui";
 import './BankList.scss';
-import { getBankList } from "../../../store/bank/thunks";
+import { getBankList, addNewBank } from "../../../store/bank/thunks";
 import Layout from "../../../components/Layout/Layout";
 
 class BankList extends Component {
   componentDidMount() {
     this.props.getBankList();
+  }
+
+  addNewBank = bank => {
+    this.props.addNewBank(bank);
   }
 
   render() {
@@ -27,10 +31,11 @@ class BankList extends Component {
               tappable
               className="bank-list-item"
               key={UUID()}
+              onClick={() => this.addNewBank(row)}
             >
               <div className="left">
                 <img
-                  class="list-item__thumbnail"
+                  className="list-item__thumbnail"
                   src={row.logoUrl}
                   alt={row.shortName}
                 />
@@ -49,7 +54,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBankList: () => dispatch(getBankList())
+  getBankList: () => dispatch(getBankList()),
+  addNewBank: bank => dispatch(addNewBank(bank))
 });
 
 export default connect(
