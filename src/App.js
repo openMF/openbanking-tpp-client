@@ -31,7 +31,7 @@ const NavRootW = (props) => {
                     <Route exact path={`/`} render={
                         () => !props.role ?
                             <Redirect to={`/login`} /> :
-                            <Redirect to={`/customer/banks/authorize?code=dfgfdsdfsghtrefdsght`} />
+                            <Redirect to={`/customer/banks/authorize`} />
                     }/>
                     <ProtectedRoute exact path={`/customer/banks`} component={ConnectedBanks}/>
                     <ProtectedRoute exact path={`/customer/banks/authorize`} component={AuthorizeBank}/>
