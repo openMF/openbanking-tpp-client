@@ -39,6 +39,13 @@ export function bank(state = initialState, action) {
       return { ...state, loading: false, error: action.error };
     case actions.REGISTER_NEW_BANK_SUCCEEDED:
       return { ...state, loading: false, error: null };
+    // authorize bank
+    case actions.AUTHORIZE_BANK_REQUESTED:
+      return { ...state, loading: true, error: null };
+    case actions.AUTHORIZE_BANK_FAILED:
+      return { ...state, loading: false, error: action.error };
+    case actions.authorizeBankSucceeded:
+      return { ...state, loading: false, error: null };
     // get connected banks
     case actions.GET_CONNECTED_BANKS_REQUESTED:
       return { ...state, loading: true, error: null };
