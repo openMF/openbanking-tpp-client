@@ -10,8 +10,7 @@ import { getAccounts } from "../../../store/account/thunks";
 class Accounts extends Component {
   componentDidMount() {
     const { connectedBanks, getAccounts } = this.props;
-    const bankIds = connectedBanks.map(b => b.bankId);
-    getAccounts(bankIds);
+    getAccounts(connectedBanks);
   }
 
   getBank = bankId => {

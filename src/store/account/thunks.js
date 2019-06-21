@@ -9,6 +9,7 @@ import {
 } from "./actions";
 import { API_URL } from "../../config/server";
 import toCamel from "../../utils/toCamelHelper";
+import { openBankAuthUrl } from "../../utils/externalUrlHelper";
 
 const baseUrl = `${API_URL}/aisp/v1`;
 
@@ -33,7 +34,9 @@ const getAccountData = async (bankId, dispatch, getState) => {
     })
     .catch(error => {
       if (error.response.status === 428) {
-        throw error.response;
+        const newError = error.response;
+        newError.bankId = bankId;
+        throw newError;
       }
       dispatch(getAccountsFailed(error));
     });
@@ -48,10 +51,13 @@ export const getConsentIdForBankRegistration = async bankId => {
   }
 };
 
-export const getAccounts = bankIds => (dispatch, getState) => {
+export const getAccounts = banks => (dispatch, getState) => {
   dispatch(getAccountsRequested());
-  for (const bankId of bankIds) {
-    getAccountData(bankId, dispatch, getState);
+  for (let bank of banks) {
+    getAccountData(bank.bankId, dispatch, getState).catch(error => {
+      const consentId = error.headers["x-tpp-consentid"];
+      openBankAuthUrl(bank, consentId);
+    });
   }
 };
 

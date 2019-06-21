@@ -31,7 +31,7 @@ class ConnectedBanks extends Component {
             >
               <div className="left">
                 <img
-                  class="list-item__thumbnail"
+                  className="list-item__thumbnail"
                   src={row.logoUrl}
                   alt={row.shortName}
                 />

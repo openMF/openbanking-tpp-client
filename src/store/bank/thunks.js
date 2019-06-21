@@ -1,5 +1,4 @@
 import axios from "axios";
-import UUID from "uuid/v1.js";
 import {
   getBankListRequested,
   getBankListFailed,
@@ -16,6 +15,7 @@ import {
 import { getConsentIdForBankRegistration } from "../account/thunks";
 import { API_URL } from "../../config/server";
 import toCamel from "../../utils/toCamelHelper";
+import { openBankAuthUrl } from "../../utils/externalUrlHelper";
 
 const baseUrl = `${API_URL}/banks/v1`;
 
@@ -37,13 +37,7 @@ export const addNewBank = bank => async dispatch => {
   if (!consentId) {
     dispatch(addNewBankFailed());
   } else {
-    const authUrl = `${
-      bank.authorizeUrl
-    }?response_type=code&scope=openid profile accounts&client_id=${
-      bank.clientId
-    }&redirect_uri=${bank.callbackUrl}&nonce=${UUID()}&consentId=${consentId}`;
-    console.log(encodeURI(authUrl));
-    // window.location.assign(encodeURI(authUrl));
+    openBankAuthUrl(bank, consentId);
   }
 };
 
