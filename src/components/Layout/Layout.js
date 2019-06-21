@@ -21,7 +21,7 @@ class Layout extends PureComponent {
             <div className="center">
               {role ? (
                 <Fragment>
-                  <NavLink to={`/customer/accounts`}>
+                  <NavLink to={`/customer/banks`}>
                     <ToolbarButton modifier={"material"}>
                       <Icon icon="fa-user-circle" /> {fullname}
                     </ToolbarButton>

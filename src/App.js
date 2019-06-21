@@ -16,6 +16,7 @@ import Accounts from './screens/customer/Accounts/Accounts';
 import Account from './screens/customer/Account/Account';
 import BankList from './screens/customer/BankList/BankList';
 import ConsentRegistration from './screens/customer/ConsentRegistration/ConsentRegistration';
+import ConnectedBanks from './screens/customer/ConnectedBanks/ConnectedBanks';
 
 const NavRootW = (props) => {
     const theme = 'elephant';
@@ -29,9 +30,10 @@ const NavRootW = (props) => {
                     <Route exact path={`/`} render={
                         () => !props.role ?
                             <Redirect to={`/login`} /> :
-                            <Redirect to={`/customer`} />
+                            <Redirect to={`/customer/banks`} />
                     }/>
-                    <ProtectedRoute exact path={`/customer`} component={Customer} />
+                    {/* <ProtectedRoute exact path={`/customer`} component={Customer} /> */}
+                    <ProtectedRoute exact path={`/customer/banks`} component={ConnectedBanks}/>
                     <ProtectedRoute exact path={`/customer/accounts`} component={Accounts}/>
                     <ProtectedRoute exact path={`/customer/accounts/new`} component={BankList}/>
                     <ProtectedRoute exact path={`/customer/accounts/register/:consentId`} component={ConsentRegistration}/>

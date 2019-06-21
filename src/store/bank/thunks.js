@@ -5,7 +5,10 @@ import {
   getBankListSucceeded,
   registerNewBankRequested,
   registerNewBankFailed,
-  registerNewBankSucceeded
+  registerNewBankSucceeded,
+  getConnectedBanksRequested,
+  getConnectedBanksFailed,
+  getConnectedBanksSucceeded
 } from "./actions";
 import { API_URL } from "../../config/server";
 import toCamel from "../../utils/toCamelHelper";
@@ -24,17 +27,26 @@ export const getBankList = () => dispatch => {
     .catch(error => dispatch(getBankListFailed(error)));
 };
 
-export const registerNewBank = consentId => dispatch => {
+export const registerNewBank = consentId => async dispatch => {
   dispatch(registerNewBankRequested());
 
-  return axios
-    .post(`${API_URL}/consents/${consentId}`)
+  try {
+    await axios.post(`${API_URL}/consents/${consentId}`);
+    dispatch(registerNewBankSucceeded());
+  } catch (error) {
+    dispatch(registerNewBankFailed(error));
+    throw error;
+  }
+};
+
+export const getConnectedBanks = () => dispatch => {
+  dispatch(getConnectedBanksRequested());
+
+  axios
+    .get(`${API_URL}/user/v1/banks`)
     .then(res => {
-      const banks = toCamel(res.data).bankInfoList;
-      dispatch(registerNewBankSucceeded(banks));
+      const banks = toCamel(res.data).bankInfo;
+      dispatch(getConnectedBanksSucceeded(banks));
     })
-    .catch(error => {
-      dispatch(registerNewBankFailed(error));
-      throw error;
-    });
+    .catch(error => dispatch(getConnectedBanksFailed(error)));
 };

@@ -7,8 +7,8 @@ export const login = (username, history) => (dispatch, getState) => {
     dispatch(loginStarted());
     const {bank} = getState();
     const registeredUser = users.find(user => {
-        const allowedBank = user.banks.find(userBank => userBank.bankName === bank) ? true : false;
-        return user.username === username && allowedBank;
+        // const allowedBank = user.banks.find(userBank => userBank.bankName === bank) ? true : false;
+        return user.username === username;
     });
     if (registeredUser) {
         dispatch(loginCompleted(registeredUser));

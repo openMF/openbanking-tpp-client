@@ -40,3 +40,21 @@ export const registerNewBankSucceeded = payload => ({
   type: REGISTER_NEW_BANK_SUCCEEDED,
   payload
 });
+
+export const GET_CONNECTED_BANKS_REQUESTED = "GET_CONNECTED_BANKS_REQUESTED";
+export const GET_CONNECTED_BANKS_FAILED = "GET_CONNECTED_BANKS_FAILED";
+export const GET_CONNECTED_BANKS_SUCCEEDED = "GET_CONNECTED_BANKS_SUCCEEDED";
+
+export const getConnectedBanksRequested = () => ({
+  type: GET_CONNECTED_BANKS_REQUESTED
+});
+
+export const getConnectedBanksFailed = error => ({
+  type: GET_CONNECTED_BANKS_FAILED,
+  error
+});
+
+export const getConnectedBanksSucceeded = payload => ({
+  type: GET_CONNECTED_BANKS_SUCCEEDED,
+  payload
+});
