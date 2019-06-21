@@ -4,6 +4,8 @@ import {
   getBankListRequested,
   getBankListFailed,
   getBankListSucceeded,
+  addNewBankRequested,
+  addNewBankFailed,
   registerNewBankRequested,
   registerNewBankFailed,
   registerNewBankSucceeded,
@@ -30,14 +32,19 @@ export const getBankList = () => dispatch => {
 };
 
 export const addNewBank = bank => async dispatch => {
+  dispatch(addNewBankRequested());
   const consentId = await getConsentIdForBankRegistration(bank.bankId);
-  const authUrl = `${
-    bank.authorizeUrl
-  }?response_type=code&scope=openid profile accounts&client_id=${
-    bank.clientId
-  }&redirect_uri=${bank.callbackUrl}&nonce=${UUID()}&consentId=${consentId}`;
-  console.log(encodeURI(authUrl));
-  // window.location.assign(encodeURI(authUrl));
+  if (!consentId) {
+    dispatch(addNewBankFailed());
+  } else {
+    const authUrl = `${
+      bank.authorizeUrl
+    }?response_type=code&scope=openid profile accounts&client_id=${
+      bank.clientId
+    }&redirect_uri=${bank.callbackUrl}&nonce=${UUID()}&consentId=${consentId}`;
+    console.log(encodeURI(authUrl));
+    // window.location.assign(encodeURI(authUrl));
+  }
 };
 
 export const registerNewBank = consentId => async dispatch => {

@@ -23,6 +23,22 @@ export const getBankListSucceeded = payload => ({
   payload
 });
 
+export const ADD_NEW_BANK_REQUESTED = "ADD_NEW_BANK_REQUESTED";
+export const ADD_NEW_BANK_FAILED = "ADD_NEW_BANK_FAILED";
+export const ADD_NEW_BANK_CLEARED = "ADD_NEW_BANK_CLEARED";
+
+export const addNewBankRequested = () => ({
+  type: ADD_NEW_BANK_REQUESTED
+});
+
+export const addNewBankFailed = () => ({
+  type: ADD_NEW_BANK_FAILED
+});
+
+export const addNewBankCleared = () => ({
+  type: ADD_NEW_BANK_CLEARED
+});
+
 export const REGISTER_NEW_BANK_REQUESTED = "REGISTER_NEW_BANK_REQUESTED";
 export const REGISTER_NEW_BANK_FAILED = "REGISTER_NEW_BANK_FAILED";
 export const REGISTER_NEW_BANK_SUCCEEDED = "REGISTER_NEW_BANK_SUCCEEDED";

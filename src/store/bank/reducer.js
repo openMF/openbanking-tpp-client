@@ -5,7 +5,8 @@ const initialState = {
   loading: false,
   error: null,
   bankList: [],
-  connectedBanks: []
+  connectedBanks: [],
+  bankAlreadyRegistered: false
 };
 
 export function bank(state = initialState, action) {
@@ -24,6 +25,13 @@ export function bank(state = initialState, action) {
         error: null,
         bankList: action.payload
       };
+    // add new bank
+    case actions.ADD_NEW_BANK_REQUESTED:
+      return { ...state, loading: true, bankAlreadyRegistered: false };
+    case actions.ADD_NEW_BANK_FAILED:
+      return { ...state, loading: false, bankAlreadyRegistered: true };
+    case actions.ADD_NEW_BANK_CLEARED:
+      return { ...state, loading: false, bankAlreadyRegistered: false };
     // register new bank
     case actions.REGISTER_NEW_BANK_REQUESTED:
       return { ...state, loading: true, error: null };

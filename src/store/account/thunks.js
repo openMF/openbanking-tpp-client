@@ -24,8 +24,12 @@ const getAccountData = async (bankId, dispatch, getState) => {
         const balance = balances.find(b => b.accountId === account.accountId);
         return { ...account, balance, bankId };
       });
-      const allAccounts = getState().accounts.accounts.concat(extendedAccounts);
-      dispatch(getAccountsSucceeded(allAccounts));
+      if (dispatch && getState) {
+        const allAccounts = getState().accounts.accounts.concat(
+          extendedAccounts
+        );
+        dispatch(getAccountsSucceeded(allAccounts));
+      }
     })
     .catch(error => {
       if (error.response.status === 428) {
@@ -38,6 +42,7 @@ const getAccountData = async (bankId, dispatch, getState) => {
 export const getConsentIdForBankRegistration = async bankId => {
   try {
     await getAccountData(bankId);
+    return null;
   } catch (error) {
     return error.headers["x-tpp-consentid"];
   }
