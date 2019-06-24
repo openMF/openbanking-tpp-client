@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 import "./App.css";
 
 import Login from "./screens/login";
@@ -105,6 +106,16 @@ class App extends Component {
     if (!this.props.role) {
       this.props.tryLogin(this.props.history);
     }
+
+    axios.interceptors.request.use(
+      (config) => {
+        const credentials = localStorage.getItem("cred");
+        if (credentials) {
+          config.headers["Authorization"] = `Basic ${credentials}`;
+        }
+        return config;
+      }
+    );
   }
 
   render() {

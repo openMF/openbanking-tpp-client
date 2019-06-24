@@ -26,10 +26,10 @@ export const tryLogin = history => dispatch => {
 
 export const login = (credentials, history) => dispatch => {
   dispatch(loginStarted());
-  localStorage.setItem("cred", credentials);
   axios
     .get(`${API_URL}/user/v1/banks`)
     .then(() => {
+      localStorage.setItem("cred", credentials);
       dispatch(
         loginCompleted({
           username: credentials.username,
