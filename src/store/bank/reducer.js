@@ -63,6 +63,8 @@ export function bank(state = initialState, action) {
         error: null,
         connectedBanks: action.payload
       };
+    case actions.CLEAR_ERROR:
+      return { ...state, error: null };
     default:
       return state;
   }

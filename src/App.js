@@ -19,7 +19,7 @@ import BankList from "./screens/customer/BankList/BankList";
 import ConsentRegistration from "./screens/customer/ConsentRegistration/ConsentRegistration";
 import ConnectedBanks from "./screens/customer/ConnectedBanks/ConnectedBanks";
 import AuthorizeBank from "./screens/customer/AuthorizeBank/AuthorizeBank";
-import { tryLogin } from "./store/users/thunks";
+import { tryLogin, logout } from "./store/users/thunks";
 
 const NavRootW = props => {
   const theme = "elephant";
@@ -107,13 +107,27 @@ class App extends Component {
       this.props.tryLogin();
     }
 
-    axios.interceptors.request.use(config => {
-      const credentials = localStorage.getItem("cred");
-      if (credentials) {
-        config.headers["Authorization"] = `Basic ${credentials}`;
+    axios.interceptors.request.use(
+      config => {
+        const credentials = localStorage.getItem("cred");
+        if (credentials) {
+          config.headers["Authorization"] = `Basic ${credentials}`;
+        }
+        return config;
       }
-      return config;
-    });
+    );
+
+    axios.interceptors.response.use(
+      response => {
+        return response;
+      },
+      error => {
+        if(error.status === 401) {
+          this.props.logout();
+        }
+        return Promise.reject(error);
+      }
+    );
   }
 
   render() {
@@ -131,7 +145,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  tryLogin: () => dispatch(tryLogin())
+  tryLogin: () => dispatch(tryLogin()),
+  logout: () => dispatch(logout())
 });
 
 export default withRouter(

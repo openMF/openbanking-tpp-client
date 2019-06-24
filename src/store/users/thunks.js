@@ -28,7 +28,7 @@ export const tryLogin = () => dispatch => {
 export const login = (credentials, history) => dispatch => {
   dispatch(loginStarted());
   axios
-    .get(`${API_URL}/user/v1/banks`)
+    .get(`${API_URL}/user/v1/banks`, {headers: {'Authorization': `Basic ${credentials}`}})
     .then(() => {
       localStorage.setItem("cred", credentials);
       dispatch(

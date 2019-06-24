@@ -28,7 +28,7 @@ export const getBankList = () => dispatch => {
   axios
     .get(`${baseUrl}/supported`)
     .then(res => {
-      const banks = toCamel(res.data).bankInfoList;
+      const banks = toCamel(res.data).bankInfo;
       dispatch(getBankListSucceeded(banks));
     })
     .catch(error => dispatch(getBankListFailed(error)));
@@ -66,16 +66,20 @@ export const authorizeBank = code => async dispatch => {
     dispatch(authorizeBankFailed(error));
     throw error;
   }
-}
+};
 
-export const getConnectedBanks = () => dispatch => {
+export const getConnectedBanks = () => async dispatch => {
   dispatch(getConnectedBanksRequested());
 
-  axios
+  return axios
     .get(`${API_URL}/user/v1/banks`)
     .then(res => {
       const banks = toCamel(res.data).bankInfo;
       dispatch(getConnectedBanksSucceeded(banks));
+      return banks;
     })
-    .catch(error => dispatch(getConnectedBanksFailed(error)));
+    .catch(error => {
+      dispatch(getConnectedBanksFailed(error));
+      return null;
+    });
 };

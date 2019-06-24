@@ -6,14 +6,14 @@ import {
   ListItem,
   ListHeader,
   AlertDialog,
-  Button,
-  Dialog,
-  ProgressCircular
+  Button
 } from "react-onsenui";
 import "./BankList.scss";
 import { getBankList, addNewBank } from "../../../store/bank/thunks";
-import { addNewBankCleared } from "../../../store/bank/actions";
+import { addNewBankCleared, clearError } from "../../../store/bank/actions";
 import Layout from "../../../components/Layout/Layout";
+import Loading from "../../../components/Loading/Loading";
+import ErrorDialog from "../../../components/ErrorDialog/ErrorDialog";
 
 class BankList extends Component {
   componentDidMount() {
@@ -69,9 +69,9 @@ class BankList extends Component {
           </div>
         </AlertDialog>
 
-        <Dialog isOpen={this.props.loading}>
-          <ProgressCircular indeterminate />
-        </Dialog>
+        <Loading isOpen={this.props.loading} />
+
+        <ErrorDialog isOpen={!!this.props.error} close={this.props.clearError} />
       </Layout>
     );
   }
@@ -80,13 +80,15 @@ class BankList extends Component {
 const mapStateToProps = state => ({
   bankList: state.bank.bankList,
   loading: state.bank.loading,
-  bankAlreadyRegistered: state.bank.bankAlreadyRegistered
+  error: state.bank.error,
+  bankAlreadyRegistered: state.bank.bankAlreadyRegistered,
 });
 
 const mapDispatchToProps = dispatch => ({
   getBankList: () => dispatch(getBankList()),
   addNewBank: bank => dispatch(addNewBank(bank)),
-  closeAlert: () => dispatch(addNewBankCleared())
+  closeAlert: () => dispatch(addNewBankCleared()),
+  clearError: () => dispatch(clearError())
 });
 
 export default connect(

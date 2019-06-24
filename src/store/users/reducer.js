@@ -23,7 +23,7 @@ export function user(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: "You cannot login to this bank with these credentials"
+        error: "Username or password is incorrect"
       };
     case LOGIN_COMPLETED:
       return {

@@ -6,6 +6,9 @@ import { NavLink } from "react-router-dom";
 import { List, ListItem, ListHeader, Button } from "react-onsenui";
 import Layout from "../../../components/Layout/Layout";
 import { getConnectedBanks } from "../../../store/bank/thunks";
+import Loading from "../../../components/Loading/Loading";
+import ErrorDialog from "../../../components/ErrorDialog/ErrorDialog";
+import { clearError } from "../../../store/bank/actions";
 
 class ConnectedBanks extends Component {
   componentDidMount() {
@@ -24,11 +27,7 @@ class ConnectedBanks extends Component {
           )}
           dataSource={connectedBanks}
           renderRow={row => (
-            <ListItem
-              tappable
-              className="bank-list-item"
-              key={UUID()}
-            >
+            <ListItem tappable className="bank-list-item" key={UUID()}>
               <div className="left">
                 <img
                   className="list-item__thumbnail"
@@ -45,17 +44,28 @@ class ConnectedBanks extends Component {
             Add Bank
           </Button>
         </NavLink>
+        <Loading isOpen={this.props.loading} />
+
+        <ErrorDialog
+          isOpen={!!this.props.error}
+          close={this.props.clearError}
+          title="Something went wrong"
+          message={this.props.error ? JSON.stringify(this.props.error) : null}
+        />
       </Layout>
     );
   }
 }
 
 const mapStateToProps = state => ({
-    connectedBanks: state.bank.connectedBanks
+  connectedBanks: state.bank.connectedBanks,
+  loading: state.bank.loading,
+  error: state.bank.error
 });
 
 const mapDispatchToProps = dispatch => ({
-    getConnectedBanks: () => dispatch(getConnectedBanks())
+  getConnectedBanks: () => dispatch(getConnectedBanks()),
+  clearError: () => dispatch(clearError())
 });
 
 export default connect(

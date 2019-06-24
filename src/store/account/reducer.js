@@ -7,22 +7,24 @@ const initialState = {
   currentAccount: null
 };
 
-export default (state = initialState, { type, payload }) => {
-  switch (type) {
+export default (state = initialState, action) => {
+  switch (action.type) {
     case actions.GET_ACCOUNTS_REQUESTED:
       return { ...state, loading: true, error: null, accounts: [] };
     case actions.GET_ACCOUNTS_FAILED:
-      return { ...state, loading: false, error: payload, accounts: [] };
+      return { ...state, loading: false, error: action.error, accounts: [] };
     case actions.GET_ACCOUNTS_SUCCEEDED:
-      return { ...state, loading: false, accounts: payload, error: null };
+      return { ...state, loading: false, accounts: action.payload, error: null };
 
     case actions.GET_ACCOUNT_REQUESTED:
       return { ...state, loading: true, error: null, currentAccount: null };
     case actions.GET_ACCOUNT_FAILED:
-      return { ...state, loading: false, error: payload, currentAccount: null };
+      return { ...state, loading: false, error: action.error, currentAccount: null };
     case actions.GET_ACCOUNT_SUCCEEDED:
-      return { ...state, loading: false, currentAccount: payload, error: null };
-
+      return { ...state, loading: false, currentAccount: action.payload, error: null };
+      
+    case actions.CLEAR_ERROR:
+      return { ...state, error: null };
     default:
       return state;
   }

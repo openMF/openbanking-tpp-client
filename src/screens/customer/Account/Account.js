@@ -5,6 +5,9 @@ import { Icon } from "react-onsenui";
 import "./Account.scss";
 import Layout from "../../../components/Layout/Layout";
 import { getAccount } from "../../../store/account/thunks";
+import Loading from "../../../components/Loading/Loading";
+import ErrorDialog from "../../../components/ErrorDialog/ErrorDialog";
+import { clearError } from "../../../store/account/actions";
 
 class Account extends Component {
   componentDidMount() {
@@ -58,6 +61,8 @@ class Account extends Component {
             </React.Fragment>
           )}
         </div>
+        <Loading isOpen={this.props.loading} />
+        <ErrorDialog isOpen={!!this.props.error} close={this.props.clearError} />
       </Layout>
     );
   }
@@ -65,11 +70,13 @@ class Account extends Component {
 
 const mapStateToProps = state => ({
   account: state.accounts.currentAccount,
-  loading: state.accounts.loading
+  loading: state.accounts.loading,
+  error: state.accounts.error,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAccount: accountId => dispatch(getAccount(accountId))
+  getAccount: accountId => dispatch(getAccount(accountId)),
+  clearError: () => dispatch(clearError())
 });
 
 export default connect(

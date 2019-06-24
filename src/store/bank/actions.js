@@ -5,7 +5,7 @@ export const setBank = theme => ({
   payload: theme
 });
 
-// get bank list 
+// get bank list
 export const GET_BANK_LIST_REQUESTED = "GET_BANK_LIST_REQUESTED";
 export const GET_BANK_LIST_FAILED = "GET_BANK_LIST_FAILED";
 export const GET_BANK_LIST_SUCCEEDED = "GET_BANK_LIST_SUCCEEDED";
@@ -97,3 +97,8 @@ export const getConnectedBanksSucceeded = payload => ({
   type: GET_CONNECTED_BANKS_SUCCEEDED,
   payload
 });
+
+// clear error
+export const CLEAR_ERROR = "CLEAR_ERROR";
+
+export const clearError = () => ({ type: CLEAR_ERROR });

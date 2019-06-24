@@ -33,3 +33,8 @@ export const getAccountSucceeded = payload => ({
   type: GET_ACCOUNT_SUCCEEDED,
   payload
 });
+
+// clear error
+export const CLEAR_ERROR = "CLEAR_ERROR";
+
+export const clearError = () => ({ type: CLEAR_ERROR });
