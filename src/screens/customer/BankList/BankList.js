@@ -1,13 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import UUID from "uuid/v1.js";
-import {
-  List,
-  ListItem,
-  ListHeader,
-  AlertDialog,
-  Button
-} from "react-onsenui";
+import { List, ListItem, ListHeader, AlertDialog, Button } from "react-onsenui";
 import "./BankList.scss";
 import { getBankList, addNewBank } from "../../../store/bank/thunks";
 import { addNewBankCleared, clearError } from "../../../store/bank/actions";
@@ -25,7 +19,7 @@ class BankList extends Component {
   };
 
   render() {
-    const { bankList } = this.props;
+    const { bankList, error } = this.props;
     return (
       <Layout placeContentInCard={false}>
         <List
@@ -71,7 +65,12 @@ class BankList extends Component {
 
         <Loading isOpen={this.props.loading} />
 
-        <ErrorDialog isOpen={!!this.props.error} close={this.props.clearError} />
+        <ErrorDialog
+          isOpen={!!error}
+          close={this.props.clearError}
+          title="Something went wrong"
+          message={error && error.response ? error.response.data : null}
+        />
       </Layout>
     );
   }
@@ -81,7 +80,7 @@ const mapStateToProps = state => ({
   bankList: state.bank.bankList,
   loading: state.bank.loading,
   error: state.bank.error,
-  bankAlreadyRegistered: state.bank.bankAlreadyRegistered,
+  bankAlreadyRegistered: state.bank.bankAlreadyRegistered
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -16,7 +16,7 @@ class Account extends Component {
   }
 
   render() {
-    const { account, loading } = this.props;
+    const { account, loading, error } = this.props;
     return (
       <Layout>
         <div>
@@ -62,7 +62,12 @@ class Account extends Component {
           )}
         </div>
         <Loading isOpen={this.props.loading} />
-        <ErrorDialog isOpen={!!this.props.error} close={this.props.clearError} />
+        <ErrorDialog
+          isOpen={!!error}
+          close={this.props.clearError}
+          title="Something went wrong"
+          message={error && error.response ? error.response.data : null}
+        />
       </Layout>
     );
   }
@@ -71,7 +76,7 @@ class Account extends Component {
 const mapStateToProps = state => ({
   account: state.accounts.currentAccount,
   loading: state.accounts.loading,
-  error: state.accounts.error,
+  error: state.accounts.error
 });
 
 const mapDispatchToProps = dispatch => ({

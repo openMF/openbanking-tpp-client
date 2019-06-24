@@ -16,7 +16,7 @@ class ConnectedBanks extends Component {
   }
 
   render() {
-    const { connectedBanks } = this.props;
+    const { connectedBanks, error } = this.props;
     return (
       <Layout placeContentInCard={false}>
         <List
@@ -47,10 +47,10 @@ class ConnectedBanks extends Component {
         <Loading isOpen={this.props.loading} />
 
         <ErrorDialog
-          isOpen={!!this.props.error}
+          isOpen={!!error}
           close={this.props.clearError}
           title="Something went wrong"
-          message={this.props.error ? JSON.stringify(this.props.error) : null}
+          message={error && error.response ? error.response.data : null}
         />
       </Layout>
     );
