@@ -1,16 +1,39 @@
-import React from 'react';
-import { Redirect, Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Redirect, Route, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { tryLogin } from "../../store/users/thunks";
 
-class ProtectedRoute extends React.PureComponent{
-    render() {
-        const {role, component: Component, ...rest} = this.props;
-        return <Route {...rest} render={props=> role?<Component {...props}/>:<Redirect to={`/login`}/> }/>
+class ProtectedRoute extends React.PureComponent {
+  componentDidMount() {
+    if (!this.props.role) {
+      this.props.tryLogin(this.props.history);
     }
+  }
+
+  render() {
+    const { role, component: Component, ...rest } = this.props;
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          role ? <Component {...props} /> : <Redirect to={`/login`} />
+        }
+      />
+    );
+  }
 }
 
-const mapStateToProps = (state) => ({
-    role: state.user.role
+const mapStateToProps = state => ({
+  role: state.user.role
 });
 
-export default withRouter(connect(mapStateToProps) (ProtectedRoute));
+const mapDispatchToProps = dispatch => ({
+  tryLogin: history => dispatch(tryLogin(history))
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ProtectedRoute)
+);
