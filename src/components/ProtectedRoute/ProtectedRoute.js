@@ -6,7 +6,7 @@ import { tryLogin } from "../../store/users/thunks";
 class ProtectedRoute extends React.PureComponent {
   componentDidMount() {
     if (!this.props.role) {
-      this.props.tryLogin(this.props.history);
+      this.props.tryLogin();
     }
   }
 
@@ -28,7 +28,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  tryLogin: history => dispatch(tryLogin(history))
+  tryLogin: () => dispatch(tryLogin())
 });
 
 export default withRouter(

@@ -104,31 +104,34 @@ const NavRoot = withRouter(
 class App extends Component {
   componentDidMount() {
     if (!this.props.role) {
-      this.props.tryLogin(this.props.history);
+      this.props.tryLogin();
     }
 
-    axios.interceptors.request.use(
-      (config) => {
-        const credentials = localStorage.getItem("cred");
-        if (credentials) {
-          config.headers["Authorization"] = `Basic ${credentials}`;
-        }
-        return config;
+    axios.interceptors.request.use(config => {
+      const credentials = localStorage.getItem("cred");
+      if (credentials) {
+        config.headers["Authorization"] = `Basic ${credentials}`;
       }
-    );
+      return config;
+    });
   }
 
   render() {
-    return <Route path={`/`} render={props => <NavRoot {...props} />} />;
+    return (
+      this.props.initialized && (
+        <Route path={`/`} render={props => <NavRoot {...props} />} />
+      )
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  role: state.user.role
+  role: state.user.role,
+  initialized: state.user.initialized
 });
 
 const mapDispatchToProps = dispatch => ({
-  tryLogin: history => dispatch(tryLogin(history))
+  tryLogin: () => dispatch(tryLogin())
 });
 
 export default withRouter(

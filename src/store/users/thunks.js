@@ -5,11 +5,13 @@ import {
   loginCompleted,
   loginFailed,
   loginStarted,
-  logoutUser
+  logoutUser,
+  initApp
 } from "./actions";
 import { API_URL } from "../../config/server";
 
-export const tryLogin = history => dispatch => {
+export const tryLogin = () => dispatch => {
+  dispatch(initApp());
   const credentials = localStorage.getItem("cred");
   if (credentials) {
     dispatch(
@@ -20,7 +22,6 @@ export const tryLogin = history => dispatch => {
         role: "customer"
       })
     );
-    history.push(`/`);
   }
 };
 
