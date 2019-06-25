@@ -107,22 +107,20 @@ class App extends Component {
       this.props.tryLogin();
     }
 
-    axios.interceptors.request.use(
-      config => {
-        const credentials = localStorage.getItem("cred");
-        if (credentials) {
-          config.headers["Authorization"] = `Basic ${credentials}`;
-        }
-        return config;
+    axios.interceptors.request.use(config => {
+      const credentials = localStorage.getItem("cred");
+      if (credentials) {
+        config.headers["Authorization"] = `Basic ${credentials}`;
       }
-    );
+      return config;
+    });
 
     axios.interceptors.response.use(
       response => {
         return response;
       },
       error => {
-        if(error.status === 401) {
+        if (error.status === 401) {
           this.props.logout();
         }
         return Promise.reject(error);
@@ -131,10 +129,10 @@ class App extends Component {
   }
 
   render() {
-    return (
-      this.props.initialized && (
-        <Route path={`/`} render={props => <NavRoot {...props} />} />
-      )
+    return this.props.initialized ? (
+      <Route path={`/`} render={props => <NavRoot {...props} />} />
+    ) : (
+      <div>Loading...</div>
     );
   }
 }
