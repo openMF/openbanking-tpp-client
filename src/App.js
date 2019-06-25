@@ -16,7 +16,6 @@ import { setBank } from "./store/bank/actions.js";
 import Accounts from "./screens/customer/Accounts/Accounts";
 import Account from "./screens/customer/Account/Account";
 import BankList from "./screens/customer/BankList/BankList";
-import ConsentRegistration from "./screens/customer/ConsentRegistration/ConsentRegistration";
 import ConnectedBanks from "./screens/customer/ConnectedBanks/ConnectedBanks";
 import AuthorizeBank from "./screens/customer/AuthorizeBank/AuthorizeBank";
 import { tryLogin, logout } from "./store/users/thunks";
@@ -61,11 +60,6 @@ const NavRootW = props => {
               exact
               path={`/customer/accounts/new`}
               component={BankList}
-            />
-            <ProtectedRoute
-              exact
-              path={`/customer/accounts/register/:consentId`}
-              component={ConsentRegistration}
             />
             <ProtectedRoute
               path={`/customer/accounts/:accountId`}
