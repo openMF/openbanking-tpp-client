@@ -60,7 +60,7 @@ export const authorizeBank = code => async dispatch => {
   dispatch(authorizeBankRequested());
 
   try {
-    await axios.post(`${API_URL}/token/v1/code/${code}`);
+    await axios.get(`${API_URL}/token/v1/code/${code}`);
     dispatch(authorizeBankSucceeded());
   } catch (error) {
     dispatch(authorizeBankFailed(error));
