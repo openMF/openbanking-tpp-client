@@ -9,7 +9,7 @@ class AuthorizeBank extends Component {
   componentDidMount() {
     const { authorizeBank, history, location } = this.props;
     const params = new URLSearchParams(location.search);
-    authorizeBank(params.get('code'))
+    authorizeBank(params.get('state'), params.get('code'))
     .then(() =>
       setTimeout(() => history.push("/customer/accounts"), 2500)
     );
@@ -45,7 +45,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    authorizeBank: code => dispatch(authorizeBank(code))
+    authorizeBank: (bankId, code) => dispatch(authorizeBank(bankId, code))
 });
 
 export default withRouter(

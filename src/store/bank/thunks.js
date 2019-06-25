@@ -56,11 +56,11 @@ export const registerNewBank = consentId => async dispatch => {
   }
 };
 
-export const authorizeBank = code => async dispatch => {
+export const authorizeBank = (bankId, code) => async dispatch => {
   dispatch(authorizeBankRequested());
 
   try {
-    await axios.get(`${API_URL}/token/v1/code/${code}`);
+    await axios.get(`${API_URL}/token/v1/code/${code}`, { headers: { "x-tpp-bankid": bankId } });
     dispatch(authorizeBankSucceeded());
   } catch (error) {
     dispatch(authorizeBankFailed(error));

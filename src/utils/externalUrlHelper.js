@@ -5,7 +5,7 @@ export const openBankAuthUrl = (bank, consentId) => {
     bank.authorizeUrl
   }?response_type=code&scope=openid profile accounts&client_id=${
     bank.clientId
-  }&redirect_uri=${bank.callbackUrl}&nonce=${UUID()}&consentId=${consentId}`;
+  }&redirect_uri=${bank.callbackUrl}&nonce=${UUID()}&consentId=${consentId}&state=${bank.bankId}`;
   console.log(encodeURI(authUrl));
   window.location.assign(encodeURI(authUrl));
 };
