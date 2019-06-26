@@ -40,7 +40,7 @@ class Accounts extends Component {
           )}
           dataSource={accounts}
           renderRow={row => (
-            <NavLink to={`/customer/accounts/${row.accountId}`} key={UUID()}>
+            <NavLink to={`/customer/accounts/${row.accountId}?bankId=${row.bankId}`} key={UUID()}>
               <ListItem modifier="chevron" tappable className="account-item">
                 <div className="left">
                   <img
@@ -73,7 +73,7 @@ class Accounts extends Component {
           isOpen={!!error}
           close={this.props.clearError}
           title="Something went wrong"
-          message={error && error.response ? error.response.data : null}
+          message={error ? error.data : null}
         />
       </Layout>
     );

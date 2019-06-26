@@ -31,7 +31,7 @@ export const getBankList = () => dispatch => {
       const banks = toCamel(res.data).bankInfo;
       dispatch(getBankListSucceeded(banks));
     })
-    .catch(error => dispatch(getBankListFailed(error)));
+    .catch(error => dispatch(getBankListFailed(error.response)));
 };
 
 export const addNewBank = bank => async dispatch => {
@@ -51,7 +51,7 @@ export const registerNewBank = consentId => async dispatch => {
     await axios.post(`${API_URL}/consents/${consentId}`);
     dispatch(registerNewBankSucceeded());
   } catch (error) {
-    dispatch(registerNewBankFailed(error));
+    dispatch(registerNewBankFailed(error.response));
     throw error;
   }
 };
@@ -63,7 +63,7 @@ export const authorizeBank = (bankId, code) => async dispatch => {
     await axios.get(`${API_URL}/token/v1/code/${code}`, { headers: { "x-tpp-bankid": bankId } });
     dispatch(authorizeBankSucceeded());
   } catch (error) {
-    dispatch(authorizeBankFailed(error));
+    dispatch(authorizeBankFailed(error.response));
     throw error;
   }
 };
@@ -79,7 +79,7 @@ export const getConnectedBanks = () => async dispatch => {
       return banks;
     })
     .catch(error => {
-      dispatch(getConnectedBanksFailed(error));
+      dispatch(getConnectedBanksFailed(error.response));
       return null;
     });
 };

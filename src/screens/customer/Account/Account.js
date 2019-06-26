@@ -11,8 +11,9 @@ import { clearError } from "../../../store/account/actions";
 
 class Account extends Component {
   componentDidMount() {
-    const { getAccount, match } = this.props;
-    getAccount(match.params.accountId);
+    const { getAccount, match, location } = this.props;
+    const params = new URLSearchParams(location.search);
+    getAccount(match.params.accountId, params.get('bankId'));
   }
 
   render() {
@@ -66,7 +67,7 @@ class Account extends Component {
           isOpen={!!error}
           close={this.props.clearError}
           title="Something went wrong"
-          message={error && error.response ? error.response.data : null}
+          message={error ? error.data : null}
         />
       </Layout>
     );
@@ -80,7 +81,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAccount: accountId => dispatch(getAccount(accountId)),
+  getAccount: (accountId, bankId) => dispatch(getAccount(accountId, bankId)),
   clearError: () => dispatch(clearError())
 });
 

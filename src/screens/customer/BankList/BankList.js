@@ -69,7 +69,7 @@ class BankList extends Component {
           isOpen={!!error}
           close={this.props.clearError}
           title="Something went wrong"
-          message={error && error.response ? error.response.data : null}
+          message={error ? error.data : null}
         />
       </Layout>
     );

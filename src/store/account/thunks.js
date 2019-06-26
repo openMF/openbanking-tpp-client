@@ -38,7 +38,7 @@ const getAccountData = async (bankId, dispatch, getState) => {
         newError.bankId = bankId;
         throw newError;
       }
-      dispatch(getAccountsFailed(error));
+      dispatch(getAccountsFailed(error.response));
     });
 };
 
@@ -61,17 +61,21 @@ export const getAccounts = banks => (dispatch, getState) => {
   }
 };
 
-export const getAccount = accountId => dispatch => {
+export const getAccount = (accountId, bankId) => dispatch => {
   dispatch(getAccountRequested());
 
   Promise.all([
-    axios.get(`${baseUrl}/accounts/${accountId}`),
-    axios.get(`${baseUrl}/accounts/${accountId}/balances`)
+    axios.get(`${baseUrl}/accounts/${accountId}`, {
+      headers: { "x-tpp-bankid": bankId }
+    }),
+    axios.get(`${baseUrl}/accounts/${accountId}/balances`, {
+      headers: { "x-tpp-bankid": bankId }
+    })
   ])
     .then(responses => {
       const account = toCamel(responses[0].data).data.account[0];
       const balance = toCamel(responses[1].data).data.balance[0];
       dispatch(getAccountSucceeded({ ...account, balance }));
     })
-    .catch(error => dispatch(getAccountFailed(error)));
+    .catch(error => dispatch(getAccountFailed(error.response)));
 };
