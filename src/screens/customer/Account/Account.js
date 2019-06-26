@@ -13,7 +13,7 @@ class Account extends Component {
   componentDidMount() {
     const { getAccount, match, location } = this.props;
     const params = new URLSearchParams(location.search);
-    getAccount(match.params.accountId, params.get('bankId'));
+    getAccount(match.params.accountId, params.get("bankId"));
   }
 
   render() {
@@ -38,26 +38,30 @@ class Account extends Component {
                 <div>{account.status}</div>
               </div>
               <div className="account-detail">
-                <div className="title">Owner:</div>
-                <div>{account.account[0].name}</div>
-              </div>
-              <div className="account-detail">
                 <div className="title">Type:</div>
-                <div>{account.balance.creditDebitIndicator}</div>
+                <div>{`${account.accountType}, ${account.accountSubType}`}</div>
               </div>
-              <div className="account-detail">
-                <div className="title">Amount:</div>
-                <div>{`${account.balance.amount.amount} ${
-                  account.balance.amount.currency
-                }`}</div>
-              </div>
-              {account.balance.creditLine && (
-                <div className="account-detail">
-                  <div className="title">Credit line amount:</div>
-                  <div>{`${account.balance.creditLine[0].amount.amount} ${
-                    account.balance.creditLine[0].amount.currency
-                  }`}</div>
-                </div>
+              {account.balance && (
+                <React.Fragment>
+                  <div className="account-detail">
+                    <div className="title">Category:</div>
+                    <div>{account.balance.creditDebitIndicator}</div>
+                  </div>
+                  <div className="account-detail">
+                    <div className="title">Amount:</div>
+                    <div>{`${account.balance.amount.amount} ${
+                      account.balance.amount.currency
+                    }`}</div>
+                  </div>
+                  {account.balance.creditLine && (
+                    <div className="account-detail">
+                      <div className="title">Credit line amount:</div>
+                      <div>{`${account.balance.creditLine[0].amount.amount} ${
+                        account.balance.creditLine[0].amount.currency
+                      }`}</div>
+                    </div>
+                  )}{" "}
+                </React.Fragment>
               )}
             </React.Fragment>
           )}
