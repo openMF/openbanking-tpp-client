@@ -43,7 +43,7 @@ class Login extends PureComponent {
                 />
             </div>
             {error && <Card><p style={{color: "red"}}>{error}</p></Card>}
-            <Button modifier="large--cta" onClick={() => login(btoa(`${username}:${password}`), this.props.history)}>
+                <Button modifier="large--cta" onClick={() => login(btoa(`${username}:${password}`), this.props.history)}>
                 <Icon icon={'fa-sign-in-alt'} /> Login
             </Button>
         </Layout>)

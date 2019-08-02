@@ -70,12 +70,16 @@ export const getAccount = (accountId, bankId) => dispatch => {
     }),
     axios.get(`${baseUrl}/accounts/${accountId}/balances`, {
       headers: { "x-tpp-bankid": bankId }
+    }),
+    axios.get(`${baseUrl}/accounts/${accountId}/transactions`, {
+      headers: { "x-tpp-bankid": bankId }
     })
   ])
     .then(responses => {
       const account = toCamel(responses[0].data).data.account[0];
       const balance = toCamel(responses[1].data).data.balance[0];
-      dispatch(getAccountSucceeded({ ...account, balance }));
+      const transactions= toCamel(responses[2].data).data.transaction;
+      dispatch(getAccountSucceeded({ ...account, balance, transactions }));
     })
     .catch(error => dispatch(getAccountFailed(error.response)));
 };

@@ -1,10 +1,8 @@
 .account-header {
-    position: relative;
+    display: flex;
+    justify-content: space-between;
 
     .back {
-        position: absolute;
-        left: -10px;
-        top: -5px;
         color: #888;
         width: 30px;
     }
@@ -23,4 +21,13 @@
         font-weight: 600;
         text-align: left;
     }
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+}
+
+.right{
+    font-weight: bold;
 }

@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react'
 import {clearPaymentRequest} from "../../store/payment/actions.js";
+import {executePayment} from "../../store/payment/thunks.js";
 import {setQrData} from "../../store/qr/actions.js";
 import {DataList} from "../DataList/DataList.js";
 import Layout from "../Layout/Layout.js";
@@ -9,6 +10,12 @@ import {connect} from "react-redux";
 import './PaymentComplete.css';
 
 class PaymentComplete extends PureComponent {
+
+    componentDidMount() {
+        const {executePayment, match, location} = this.props;
+        const params = new URLSearchParams(location.search);
+        executePayment(match.params.consentId, params.get('bankId'))
+    }
 
     componentWillUnmount() {
         this.props.clearPaymentRequest();
@@ -74,7 +81,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     clearPaymentRequest: () => dispatch(clearPaymentRequest()),
-    clearQrData: () => dispatch(setQrData(null))
+    clearQrData: () => dispatch(setQrData(null)),
+    executePayment: (consentId, bankId) => dispatch(executePayment(consentId, bankId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentComplete)

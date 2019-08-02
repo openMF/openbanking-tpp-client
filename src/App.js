@@ -66,7 +66,7 @@ const NavRootW = props => {
               component={Account}
             />
             <ProtectedRoute
-              path={`/customer/createPaymentRequest`}
+              path={`/customer/createPaymentRequest/:accountId`}
               component={CustomerInitiatedPayment}
             />
             <ProtectedRoute
@@ -74,7 +74,7 @@ const NavRootW = props => {
               component={ApprovePayment}
             />
             <ProtectedRoute
-              path={`/customer/paymentComplete`}
+              path={`/customer/paymentComplete/:consentId`}
               component={PaymentComplete}
             />
             <ProtectedRoute

@@ -3,19 +3,27 @@ import Layout from "../../../components/Layout/Layout.js";
 import {Button, Input} from "react-onsenui";
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {customerInitiatedPaymentRequest} from "../../../store/payment/thunks.js";
+import {customerInitiatedPaymentRequest, preparePayment} from "../../../store/payment/thunks.js";
 
 class CreatePaymentRequest extends PureComponent {
 
     state = {
         amount: '',
         description: '',
-        merchantId: ''
+        merchantId: '',
+        bankId: '',
+        accountId: '',
     };
 
+    componentDidMount() {
+        const {match, location } = this.props;
+        const params = new URLSearchParams(location.search);
+        this.setState({...this.state, bankId: params.get("bankId"), accountId: match.params.accountId})
+    }
+
     render() {
-        const {amount, description, merchantId} = this.state;
-        const {sendPaymentRequest} = this.props;
+        const {amount, description, merchantId, accountId, bankId} = this.state;
+        const {preparePayment} = this.props;
         return (<Layout>
             <h1>Send Payment</h1>
             <div>
@@ -45,9 +53,7 @@ class CreatePaymentRequest extends PureComponent {
                     placeholder='Phone number'
                 />
             </div>
-            <Button modifier="large--cta" onClick={() => sendPaymentRequest({
-                payeeId: merchantId, description, amount
-            }, this.props.history)}>
+            <Button modifier="large--cta" onClick={() => preparePayment(bankId, amount, 'TZS', merchantId, accountId, description)}>
                 Create Payment Request
             </Button>
         </Layout>)
@@ -55,7 +61,8 @@ class CreatePaymentRequest extends PureComponent {
 }
 
 const matchDispatchToProps = (dispatch) => ({
-    sendPaymentRequest: (paymentInfo, history) => dispatch(customerInitiatedPaymentRequest(paymentInfo, history))
+    sendPaymentRequest: (paymentInfo, history) => dispatch(customerInitiatedPaymentRequest(paymentInfo, history)),
+    preparePayment: (bankId, amount, currency, payeeId, payerAccountId, note) => dispatch(preparePayment(bankId, amount, currency, payeeId, payerAccountId, note))
 });
 
 export default withRouter(connect(state=> ({paymentRequestSent:state.payment.paymentRequestSent}), matchDispatchToProps) (CreatePaymentRequest));

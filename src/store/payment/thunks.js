@@ -1,9 +1,12 @@
 import axios from 'axios';
 import UUID from "uuid/v1.js";
 import {Transaction} from "../../models/transaction";
-import {getServerUrl, getTenantId} from "../../config/server";
+import {API_URL, getServerUrl, getTenantId} from "../../config/server";
+import {openBankPaymentAuthUrl} from "../../utils/externalUrlHelper.js";
 import {setQrData} from "../qr/actions.js";
 import {sendPaymentRequest, setCustomerIntitiatedPayment, setPaymentSuccess, setTransactionsId} from "./actions.js";
+
+const baseUrl = `${API_URL}/pisp/v1`;
 
 export const customerInitiatedPaymentRequest = (paymentInformation, history) => (dispatch, getState) => {
     const {payeeId, payeeName = 'Carl Baker', description, amount, clientRefId = UUID()} = paymentInformation;
@@ -66,7 +69,7 @@ export const fetchPaymentSuccess = (history, qrData) => (dispatch, getState) => 
     axios.get(`${getServerUrl(bank)}/client/${qrData.clientRefId}`).then(
         response => {
             if (response.data.transferState === 'COMMITTED') {
-                const payerId = response.data.originalRequestData ? response.data.originalRequestData.payer.partyIdInfo.partyIdentifier : bank === "lion" ? "27710203999" : "27710101999"
+                const payerId = response.data.originalRequestData ? response.data.originalRequestData.payer.partyIdInfo.partyIdentifier : bank === "lion" ? "27710203999" : "27710101999";
                 dispatch(setPaymentSuccess(
                     response.data.transactionId,
                     payerId
@@ -76,4 +79,58 @@ export const fetchPaymentSuccess = (history, qrData) => (dispatch, getState) => 
         }
     ).catch(() => {
     });
+};
+
+export const preparePayment = (bankId, amount, currency, payeeId, payerAccountId, note) => (dispatch, getState) => {
+    axios.post(`${baseUrl}/preparePayment`, {
+            "Data": {
+                "Initiation": {
+                    "InstructionIdentification": UUID(),
+                    "EndToEndIdentification": UUID(),
+                    "InstructedAmount": {
+                        "Amount": amount,
+                        "Currency": currency
+                    },
+                    "CreditorAccount": {
+                        "SchemeName": "UK.OBIE.Paym",
+                        "Identification": payeeId,
+                        "Name": "unknown"
+                    },
+                    "DebtorAccount": {
+                        "SchemeName": "UK.OBIE.BBAN",
+                        "Identification": payerAccountId
+                    },
+                    "SupplementaryData": {
+                        "interopData": {
+                            "amountType": "RECEIVE",
+                            "note": note,
+                            "transactionType": {
+                                "scenario": "TRANSFER",
+                                "initiator": "PAYER",
+                                "initiatorType": "CONSUMER"
+                            }
+                        }
+                    }
+                }
+            },
+            "Risk": {}
+        },
+        {
+            headers: {
+                "x-tpp-bankid": bankId
+            }
+        }
+    ).then(response => {
+        const consentId = response.headers['x-tpp-consentid'];
+        const bank = getState().bank.connectedBanks.find(bank => bank.bankId === bankId);
+        openBankPaymentAuthUrl(bank, consentId);
+    })
+};
+
+export const executePayment = (consentId, bankId) => dispatch => {
+    console.log('consentID', consentId);
+    console.log('bankid', bankId);
+    axios.post(`${baseUrl}/executePayment/${consentId}`, {}, {headers: {"x-tpp-bankid": bankId}})
+        .then((response) => {
+        });
 };
