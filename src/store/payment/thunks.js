@@ -130,7 +130,7 @@ export const preparePayment = (bankId, amount, currency, payeeId, payerAccountId
 export const executePayment = (consentId, bankId) => dispatch => {
     console.log('consentID', consentId);
     console.log('bankid', bankId);
-    axios.post(`${baseUrl}/executePayment/${consentId}`, {}, {headers: {"x-tpp-bankid": bankId}})
+    axios.post(`${baseUrl}/executePayment/${consentId}`, undefined, {headers: {"x-tpp-bankid": bankId}})
         .then((response) => {
         });
 };
