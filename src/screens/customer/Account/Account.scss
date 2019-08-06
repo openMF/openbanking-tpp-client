@@ -22,12 +22,32 @@
         text-align: left;
     }
 }
+table{
+    width: 100%;
 
-.left{
-    display: flex;
-    flex-direction: column;
+    .align-left{
+        text-align: left;
+    }
+    .align-right{
+        text-align: right;
+    }
+
+    .credit{
+        color: green;
+    }
+
+    .debit{
+        color: red;
+        &:before {
+            content: "-";
+        }
+    }
 }
 
-.right{
-    font-weight: bold;
+.filters{
+    margin-bottom: 15px;
+
+    ons-input, ons-button {
+      margin: 0 10px;
+    }
 }

@@ -3,8 +3,20 @@ import UUID from "uuid/v1.js";
 import {Transaction} from "../../models/transaction";
 import {API_URL, getServerUrl, getTenantId} from "../../config/server";
 import {openBankPaymentAuthUrl} from "../../utils/externalUrlHelper.js";
+import toCamel from "../../utils/toCamelHelper.js";
 import {setQrData} from "../qr/actions.js";
-import {sendPaymentRequest, setCustomerIntitiatedPayment, setPaymentSuccess, setTransactionsId} from "./actions.js";
+import {
+    executePaymentFailed,
+    executePaymentRequested,
+    executePaymentSucceeded,
+    getTransactionDetailsFailed,
+    getTransactionDetailsRequested,
+    getTransactionDetailsSucceeded,
+    sendPaymentRequest,
+    setCustomerIntitiatedPayment,
+    setPaymentSuccess,
+    setTransactionsId
+} from "./actions.js";
 
 const baseUrl = `${API_URL}/pisp/v1`;
 
@@ -127,10 +139,20 @@ export const preparePayment = (bankId, amount, currency, payeeId, payerAccountId
     })
 };
 
-export const executePayment = (consentId, bankId) => dispatch => {
-    console.log('consentID', consentId);
-    console.log('bankid', bankId);
+export const executePayment = (consentId, bankId) => async dispatch => {
+    dispatch(executePaymentRequested);
     axios.post(`${baseUrl}/executePayment/${consentId}`, undefined, {headers: {"x-tpp-bankid": bankId}})
         .then((response) => {
-        });
+            dispatch(executePaymentSucceeded(toCamel(response.data).data));
+        }).catch(error => dispatch(executePaymentFailed(error)));
+};
+
+export const getTransactionDetail = (transactionId, bankId) => async dispatch => {
+    dispatch(getTransactionDetailsRequested());
+    axios.get(`${baseUrl}/payment/${transactionId}`, {headers: {"x-tpp-bankid": bankId}})
+        .then((response) => {
+            console.log(response);
+            console.log(toCamel(response.data));
+            dispatch(getTransactionDetailsSucceeded(toCamel(response.data).data));
+        }).catch(error => dispatch(getTransactionDetailsFailed(error)));
 };

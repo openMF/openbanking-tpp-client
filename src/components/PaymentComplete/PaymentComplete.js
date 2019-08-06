@@ -1,88 +1,82 @@
 import React, {PureComponent} from 'react'
-import {clearPaymentRequest} from "../../store/payment/actions.js";
-import {executePayment} from "../../store/payment/thunks.js";
-import {setQrData} from "../../store/qr/actions.js";
-import {DataList} from "../DataList/DataList.js";
-import Layout from "../Layout/Layout.js";
 import {Button, Card} from "react-onsenui";
-import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
+import {NavLink} from "react-router-dom";
+import {clearPayment, clearPaymentError} from "../../store/payment/actions.js";
+import {getTransactionDetail} from "../../store/payment/thunks.js";
+import {DataList} from "../DataList/DataList.js";
+import ErrorDialog from "../ErrorDialog/ErrorDialog.js";
+import Layout from "../Layout/Layout.js";
+import Loading from "../Loading/Loading.js";
 import './PaymentComplete.css';
 
 class PaymentComplete extends PureComponent {
 
     componentDidMount() {
-        const {executePayment, match, location} = this.props;
+        const {match, location, getTransactionDetails} = this.props;
         const params = new URLSearchParams(location.search);
-        executePayment(match.params.consentId, params.get('bankId'))
+        getTransactionDetails(match.params.transactionId, params.get('bankId'))
     }
 
     componentWillUnmount() {
-        this.props.clearPaymentRequest();
-        this.props.clearQrData();
+        this.props.clearPayment()
     }
 
     render() {
-        const {user, qr, payment} = this.props;
-        const {role} = user;
-        let text = '';
+        const {transaction, loading, error} = this.props;
         let dataSource = [];
-        let amount = qr.data ? qr.data.amount : payment.amount;
-
-        switch (role) {
-            case 'customer':
-                text = "Payment initiated";
-                dataSource = [
-                    qr.data ? ['Merchant Name', qr.data.merchant.name] : ['Payee Name', payment.payeeName],
-                    qr.data ? ['Merchant Account', qr.data.merchant.id] : ['Payee Account', payment.payeeId]
-                ];
-                break;
-            default:
-                text = "Payment received";
-                dataSource = [
-                    [qr.data ? 'Customer Name' : 'Payer Name', 'John Smith'],
-                    [qr.data ? 'Customer Account' : 'Payer Account', payment.payerId]
-                ];
+        const transactionAvailable = !loading && transaction;
+        let amount = ``;
+        if (transaction) {
+            const instructedAmount = transaction.initiation.instructedAmount;
+            amount = instructedAmount ? `${instructedAmount.amount} ${instructedAmount.currency}` : ``;
+            dataSource = [
+                ['Payer Name', transaction.initiation.debtorAccount.name],
+                ['Payer Account', `${transaction.initiation.debtorAccount.schemeName} ${transaction.initiation.debtorAccount.identification}`],
+                ['Payee Name', transaction.initiation.creditorAccount.name],
+                ['Payee Account', `${transaction.initiation.creditorAccount.schemeName} ${transaction.initiation.creditorAccount.identification}`],
+                ['Description', transaction.initiation.supplementaryData.interopData.note],
+                ['Transaction id:', transaction.domesticPaymentId],
+                ['Status:', transaction.status],
+                ...transaction.charges.map(charge => [charge.chargeBearer, `${charge.amount.amount} ${charge.amount.currency}`])
+            ]
         }
 
-        dataSource = [...dataSource, ...[
-            ['Description', qr.data ? qr.data.note : payment.description],
-            ['Merchant transaction reference', qr.data ? qr.data.clientRefId : payment.clientRefId],
-            ['Transaction id:', payment.transactionId]
-        ]];
-
         return (<Layout>
+            {transactionAvailable &&
             <div className="wrapper">
                 <div className="text">
-                    <h1>{text}</h1>
+                    <h1>Payment initiated</h1>
                 </div>
-                <Card className="amount">{amount} {'TZS'}</Card>
-                <div>
-                    <img className="checkMark"
-                         src="https://www.freeiconspng.com/uploads/check-mark-ok-png-10.png"
-                         alt="Payment received"/>
-                </div>
+                <Card className="amount">{amount}</Card>
 
-                <DataList modifier="noborder" title="Confirmation" dataSource={dataSource}
-                />
+                <DataList modifier="noborder" dataSource={dataSource}/>
 
                 <NavLink to={`/`}><Button
                     modifier="large--cta">OK</Button></NavLink>
-            </div>
+            </div>}
+            <Loading isOpen={loading}/>
+            <ErrorDialog
+                isOpen={!!error}
+                close={this.props.clearError}
+                title="Something went wrong"
+                message={error ? error.data : null}
+            />
+
         </Layout>)
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
-    qr: state.qr,
-    payment: state.payment
+    transaction: state.payment.transaction,
+    loading: state.payment.loading,
+    error: state.payment.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    clearPaymentRequest: () => dispatch(clearPaymentRequest()),
-    clearQrData: () => dispatch(setQrData(null)),
-    executePayment: (consentId, bankId) => dispatch(executePayment(consentId, bankId))
+    clearError: () => dispatch(clearPaymentError()),
+    clearPayment: () => dispatch(clearPayment()),
+    getTransactionDetails: (transactionID, bankId) => dispatch(getTransactionDetail(transactionID, bankId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentComplete)

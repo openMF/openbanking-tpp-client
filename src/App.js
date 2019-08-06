@@ -3,6 +3,7 @@ import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import "./App.css";
+import ExecutePayment from "./screens/customer/ExecutePayment/ExecutePayment.js";
 
 import Login from "./screens/login";
 import ApprovePayment from "./screens/customer/ApprovePayment/ApprovePayment";
@@ -74,8 +75,12 @@ const NavRootW = props => {
               component={ApprovePayment}
             />
             <ProtectedRoute
-              path={`/customer/paymentComplete/:consentId`}
-              component={PaymentComplete}
+                path={`/customer/paymentComplete/:transactionId`}
+                component={PaymentComplete}
+            />
+            <ProtectedRoute
+                path={`/customer/executePayment/:consentId`}
+                component={ExecutePayment}
             />
             <ProtectedRoute
               path={`/`}

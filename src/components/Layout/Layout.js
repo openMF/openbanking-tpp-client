@@ -38,11 +38,6 @@ class Layout extends PureComponent {
                     <Icon icon={"fa-list"} />
                   </ToolbarButton>
                 </NavLink>
-                <NavLink to={`/customer/createPaymentRequest`}>
-                  <ToolbarButton modifier={"material"}>
-                    <Icon icon={"fa-money-bill"} />
-                  </ToolbarButton>
-                </NavLink>
                 <ToolbarButton
                   onClick={() => logout(history)}
                   modifier={"material"}

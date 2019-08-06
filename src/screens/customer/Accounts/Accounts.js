@@ -44,7 +44,7 @@ class Accounts extends Component {
               <ListItem modifier="chevron" tappable className="account-item">
                 <div className="left">
                   <img
-                    class="list-item__thumbnail"
+                    className="list-item__thumbnail"
                     src={this.getBank(row.bankId).logoUrl}
                     alt={this.getBank(row.bankId).shortName}
                   />

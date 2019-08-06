@@ -15,7 +15,7 @@ class AuthorizeBank extends Component {
             if (responseState.bankid) {
                 authorizeBank(responseState.bankid, params.get('code'))
                     .then(() =>
-                        setTimeout(() => history.push(`/customer/paymentComplete/${responseState.consentId}?bankId=${responseState.bankid}`), 2500)
+                        setTimeout(() => history.push(`/customer/executePayment/${responseState.consentId}?bankId=${responseState.bankid}`), 2500)
                     ).catch(() => {});
             }
 
