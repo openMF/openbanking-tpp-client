@@ -22,7 +22,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router basename="/netbank">
+    <Router basename="/">
       <App />
     </Router>
   </Provider>,

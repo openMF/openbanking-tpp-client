@@ -1,18 +1,30 @@
-export const SERVER_URL = 'https://payments.dpc.hu/in01/channel/transactions';
-// export const API_URL = 'http://localhost:4000';
-export const API_URL = 'https://acefintech.mlabs.dpc.hu/api';
+export const SERVER_URL = 'http://paymenthub.mifos.io/channel/transactions';
+export const API_URL = 'http://api.lion.mifos.io/api';
 
-export const getServerUrl = (bank) => `https://${bank}.mlabs.dpc.hu/api/transactions`;
+export const getServerUrl = (bank) => {
+    switch(bank) {
+        case 'dfsp1payer':
+            return `https://paymenthub.mifos.io/channel/transactions`;
+        case 'dfsp1payee':
+            return `https://paymenthub.mifos.io/channel/transactions`;
+        case 'dfsp2payer':
+            return `https://paymenthubcn.mifos.io/channel/transactions`;
+        case 'dfsp2payee':
+            return `https://paymenthubcn.mifos.io/channel/transactions`;
+        default:
+            return `https://paymenthub.mifos.io/channel/transactions`;
+    }
+}
 
 export const getTenantId = (bank) => {
     switch (bank) {
-        case 'buffalo':
+        case 'dfsp1payer':
             return 'tn01';
-        case 'lion':
+        case 'dfsp1payee':
             return 'tn02';
-        case 'rhino':
+        case 'dfsp2payer':
             return 'tn03';
-        case 'elephant':
+        case 'dfsp2payee':
             return 'tn04';
         default:
             return 'tn01';
